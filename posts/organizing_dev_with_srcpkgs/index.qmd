@@ -9,7 +9,7 @@ toc: true
 
 Some notes for a talk about `srcpkgs` for the [Vital-IT](https://www.sib.swiss/vital-it) Analysts meeting
 
-# Overview
+## Overview
 
 This is about how to organize R projects in order to:
 
@@ -21,7 +21,7 @@ This is about how to organize R projects in order to:
 
 The context is mostly for analysis oriented R projects.
 
-# R packages
+## R packages
 
 All R users use R packages, the core ones such as base, stats, tools, and some from CRAN or BioConductor.
 
@@ -34,9 +34,9 @@ a R package is:
   - the dependencies are explicitly stated, and are themselves R packages
 
 
-# On the natural evolution of code projects... 
+## On the natural evolution of code projects... 
 
-The general evolution of analysis projects:
+My view on the general evolution of analysis projects:
 
 - you start with a **single script**, sequential, with no functions
 - at one point (after writing hundreds or thousands of lines) you realize that you need some **functions**
@@ -44,18 +44,20 @@ The general evolution of analysis projects:
   * versioning: at one point you will fix or improve such a function
     * it may be difficult to remember which project contains the latest version
     * what of the projects that contain the incorrect versions?
-- then you may want want, if you work in a team, to share this code with colleagues, or to use theirs
-  * --> it requires some documentation, even terse.
-  * there's a increased responsibility. What if your code is wrong and impact the projects of your colleagues? One remedy is to write tests for those function
+- then you may want, if you work in a team, to share this code with colleagues, or to use theirs
+  * --> it requires some **documentation**, even terse.
+  * there's a increased **responsibility**. What if your code is wrong and impact the projects of your colleagues? One remedy is to write tests for those functions.
   * those functions are seldom independent, so that you can not just pick one
   * all those functions are *exposed* (i.e *public* or *exported*). 
-    * if you start to use a low-level function in your project, and that in the next version the has been refactored and that
-      this function has been changed, or removed, it breaks your project
-- for all those reasons you start packaging your reusable code into a **R package**
-  * you can add documentation, tests, group code. It brings a namespace so that you can decide what you expose
-- But... it does really solve the **versioning** problem
+    * if you start to use a low-level function in your project, and that in the next version it has been refactored and that
+      this function has been changed, or removed, updating the shared code will break the project.
+
+- for all those reasons you start packaging your reusable code as a **R package**
+  * you can add documentation, tests, group code logically. It brings a namespace so that you can decide what you expose.
+
+- But... it does NOT really solve the **versioning** problem
   * in R, packages have to be **installed** (e.g. using `install.packages()`) before you can use them with `library(mypkg)`
-  * of course packages have a version number (N.B: this is not the same as *code versioning*)
+  * packages have a version number (N.B: this is not the same as *code versioning*)
   * if you use version v1 in your project A, and version v2 in project B, you have to juggle with versions (install/uninstall)
   Of course there are some tools to deal with that (renv...) but they work with external packages (or you need some private custom repositories)
   * and it's very cumbersome. Suppose that in your project A you find a bug in the (installed package).
@@ -63,33 +65,56 @@ The general evolution of analysis projects:
       * fetch the source code of the package
       * try to reproduce your problem. Chances are that you need your project data, you have to reproduce your session
       * finally, if you manage to fix it. You have to publish it, install it.
-- my proposal is to use what I call **R source packages**
-  * basically they are R packages, that you do not need to install on your R system, but can be directly loaded from source in your R session.
+
+- my approach is to use what I call **R source packages**
+  * they are normal R packages, but instead of installing them on your R system, you load them directly from source in your R session.
   * it was made possible by the infamous **Hadley Wickham**, and his `devtools::load_all()` function, that mimics the loading of an installed package
   * this greatly helps with all those problems:
     * you embed your source packages inside your project (as git submodules, we'll that see later)
     this solves the versioning/reproducibiliy at your reusable code level: all your projects may use a different version
   * if you need to fix a bug, or improve and augment your reusable code, it's a simple as editing the code for your project.
     And using `srcpkgs`, you can even easily reload the code inside your existing R sessions, without losing any computed data.
-  - so far so good. Then for ease of maintenance/modularity, you start splitting your resuable code by category, and develop 
-  several R packages, e.g. one for some misc utilities, one for loading data from your database, one for some specific analysis...
-    * this is where `srcpkgs` become useful, since `devtools` was designed to manage a single R source package, not a collection/library of possible inter-dependent packages.
-     * additionally has a useful little hack that enables you to use the standard `library()` function to load your source packages. 
-     So that when you analysis is finalized, or deployed in *production*, with your packages installed in the standard way, your script will continue to worl without any change.
-  - But this does not solve the reproducibility for the external packages
-    * your code and source library most certainly use external packages, and also depend on your R version (and as such in the bioconductor version)
-    * it may also depend on your OS architecture (CPU...)
-    * this out of scope for that talk, but one solution for that is to use a virtualized development environment: a docker container (cf https://rocker-project.org/) that contains a fixed version, and all the external packages that you need.
-      * here the challenge is to synchronize that docker container version with your source library version...
 
-Hence this evolution
+- so far so good. Then for ease of maintenance/modularity, you start splitting your reusable code by category, and develop 
+several R packages, e.g. one for some misc utilities, one for loading data from your database, one for some specific analysis...
+  * this is where `srcpkgs` become usefuls, since `devtools` was designed to manage a **single R source package**, not a collection/**library** of possible inter-dependent packages.
+    * additionally has a useful little hack that enables you to use the standard `library()` function to load your source packages. 
+    So that when you analysis is finalized, or deployed in *production*, with your packages installed in the standard way, your script will continue to worl without any change.
 
-`script (no function) --> functions --> script + source files -->  R package --> R source package --> R source library [ + R docker env]`
+- But this does not solve the reproducibility for the external packages
+  * your code and source library most certainly use external packages, and also depend on your R version (and thus on the *bioconductor* version)
+  * it may also depend on your OS architecture (CPU...)
+  * this is out of scope for that talk, but one solution for that is to use a virtualized development environment: a **docker** container (cf https://rocker-project.org/) that contains a fixed version of **R**, and of all the needed external packages.
+  * now the challenge is to synchronize that docker container version with your source library version...
+  * also cf https://code.visualstudio.com/docs/devcontainers/containers
 
-# My ideal project setup
 
-- the project code
-  * MUST be a git repository (in github/gitlab...)
-  * 
+### Summary
+
+`script --> script+functions --> script + source files -->  R package --> R source package --> R source library [ + R docker env]`
+
+## My recommended project setup
+
+- the source **library** of R packages
+  * should be a **single dedicated git repository**
+    * recommended since it's easier to have consistent versions of interdependent packages
+    * but each package could be in its own git repository if needed
+  * each package should contain **tests** (very important, even if it's counter intuitive, but there is usually more value in the test suite than in the code itself, don't get me started on that...)
+  * for internal packages, especially for a public of developers I personally that the **documentation** is less important, for example that for a publicly released package.
+  * you should use **CI** (Continuous Integration, like github actions or gitlab CI) to automatically run the automated tests each time you push to the repository.
+  * also, reporting the test coverage is important
+
+- the **project code**
+  * MUST be versioned in a git repository (in github/gitlab...)
+  * should itself be a R (source) package
+    * easier to add tests, documentation, vignettes
+  * but can be a single script or a set of source files
+  * contain a given version (commit/tag/branch) of the source library as a **git submodule**
+  * should contain a **vscode devcontainer** to execute the project's code (automatically usable via **github codespaces**)
+
+ 
+
+
+
 
 
