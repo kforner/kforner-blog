@@ -74,6 +74,6 @@
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "I am a computer scientist (and mathematician) by training, and always worked in bioinformatics and pharmaceutical field. I am really experienced in R programming (but I also code in Perl, Python, C++, java) and more generally in setting up and leading software development platforms, in particular for reproducible research.\nI am also fond of software optimization and parallelization.\nLately, I’m working as a consultant on, so don’t hesitate to contact me if you like my work.\nAnd I am a fervent proponent of OpenSource software:\nmy OpenSource contributions"
+    "text": "I am a computer scientist (and mathematician) by training, and have always worked in bioinformatics and pharmaceutical field. I am really experienced in R programming (but I also code in Perl, Python, C++, java) and more generally in setting up and leading software development platforms, in particular for reproducible research. In particular I pioneered the use of docker containers as reproducible computing development environments.\nI am also fond of software optimization and parallelization.\nLately, I’m working as a consultant, so don’t hesitate to contact me if you like my work.\nAnd I am a fervent proponent of OpenSource software:\nmy OpenSource contributions"
   }
 ]

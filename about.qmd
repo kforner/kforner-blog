@@ -13,7 +13,7 @@ about:
 
 ---
 
-I am a computer scientist (and mathematician) by training, and always worked in bioinformatics and pharmaceutical field.
+I am a computer scientist (and mathematician) by training, and have always worked in bioinformatics and pharmaceutical field.
 I am really experienced in R programming (but I also code in Perl, Python, C++, java) and more generally in setting up and leading software development platforms, in particular for reproducible research. 
 In particular I pioneered the use of docker containers as reproducible computing development environments.
 
