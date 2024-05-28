@@ -1,0 +1,51 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Karl Forner’s blog",
+    "section": "",
+    "text": "Organizing R development using srcpkgs\n\n\n\n\n\n\nR\n\n\nsrcpkgs\n\n\ndev\n\n\n\n\n\n\n\n\n\nMay 27, 2024\n\n\nKarl Forner\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "posts/organizing_dev_with_srcpkgs/index.html",
+    "href": "posts/organizing_dev_with_srcpkgs/index.html",
+    "title": "Organizing R development using srcpkgs",
+    "section": "",
+    "text": "Some notes for a talk about srcpkgs for the Vital-IT Analysts meeting"
+  },
+  {
+    "objectID": "posts/organizing_dev_with_srcpkgs/index.html#overview",
+    "href": "posts/organizing_dev_with_srcpkgs/index.html#overview",
+    "title": "Organizing R development using srcpkgs",
+    "section": "Overview",
+    "text": "Overview\nThis is about how to organize R projects in order to:\n\nreuse code\nshare code\nincrease robustness\nenable analysis (code) reproducibility\nhave fun\n\nThe context is mostly for analysis oriented R projects."
+  },
+  {
+    "objectID": "posts/organizing_dev_with_srcpkgs/index.html#r-packages",
+    "href": "posts/organizing_dev_with_srcpkgs/index.html#r-packages",
+    "title": "Organizing R development using srcpkgs",
+    "section": "R packages",
+    "text": "R packages\nAll R users use R packages, the core ones such as base, stats, tools, and some from CRAN or BioConductor.\nWhy would you want to use R packages for your own code???\na R package is:\n\nself-contained\n\nit bundles together all related code, the documentation, the relevant data and tests\n\nthe dependencies are explicitly stated, and are themselves R packages"
+  },
+  {
+    "objectID": "posts/organizing_dev_with_srcpkgs/index.html#on-the-natural-evolution-of-code-projects",
+    "href": "posts/organizing_dev_with_srcpkgs/index.html#on-the-natural-evolution-of-code-projects",
+    "title": "Organizing R development using srcpkgs",
+    "section": "On the natural evolution of code projects…",
+    "text": "On the natural evolution of code projects…\nMy view on the general evolution of analysis projects:\n\nyou start with a single script, sequential, with no functions\nat one point (after writing hundreds or thousands of lines) you realize that you need some functions\nthen you start reusing those functions across projects by copy/paste. This raises a number of problems\n\nversioning: at one point you will fix or improve such a function\n\nit may be difficult to remember which project contains the latest version\nwhat of the projects that contain the incorrect versions?\n\n\nthen you may want, if you work in a team, to share this code with colleagues, or to use theirs\n\n–&gt; it requires some documentation, even terse.\nthere’s a increased responsibility. What if your code is wrong and impact the projects of your colleagues? One remedy is to write tests for those functions.\nthose functions are seldom independent, so that you can not just pick one\nall those functions are exposed (i.e public or exported).\n\nif you start to use a low-level function in your project, and that in the next version it has been refactored and that this function has been changed, or removed, updating the shared code will break the project.\n\n\nfor all those reasons you start packaging your reusable code as a R package\n\nyou can add documentation, tests, group code logically. It brings a namespace so that you can decide what you expose.\n\nBut… it does NOT really solve the versioning problem\n\nin R, packages have to be installed (e.g. using install.packages()) before you can use them with library(mypkg)\npackages have a version number (N.B: this is not the same as code versioning)\nif you use version v1 in your project A, and version v2 in project B, you have to juggle with versions (install/uninstall) Of course there are some tools to deal with that (renv…) but they work with external packages (or you need some private custom repositories)\nand it’s very cumbersome. Suppose that in your project A you find a bug in the (installed package). In order to fix it, you need to\n\nfetch the source code of the package\ntry to reproduce your problem. Chances are that you need your project data, you have to reproduce your session\nfinally, if you manage to fix it. You have to publish it, install it.\n\n\nmy approach is to use what I call R source packages\n\nthey are normal R packages, but instead of installing them on your R system, you load them directly from source in your R session.\nit was made possible by the infamous Hadley Wickham, and his devtools::load_all() function, that mimics the loading of an installed package\nthis greatly helps with all those problems:\n\nyou embed your source packages inside your project (as git submodules, we’ll that see later) this solves the versioning/reproducibiliy at your reusable code level: all your projects may use a different version\n\nif you need to fix a bug, or improve and augment your reusable code, it’s a simple as editing the code for your project. And using srcpkgs, you can even easily reload the code inside your existing R sessions, without losing any computed data.\n\nso far so good. Then for ease of maintenance/modularity, you start splitting your reusable code by category, and develop several R packages, e.g. one for some misc utilities, one for loading data from your database, one for some specific analysis…\n\nthis is where srcpkgs become usefuls, since devtools was designed to manage a single R source package, not a collection/library of possible inter-dependent packages.\n\nadditionally has a useful little hack that enables you to use the standard library() function to load your source packages. So that when you analysis is finalized, or deployed in production, with your packages installed in the standard way, your script will continue to worl without any change.\n\n\nBut this does not solve the reproducibility for the external packages\n\nyour code and source library most certainly use external packages, and also depend on your R version (and thus on the bioconductor version)\nit may also depend on your OS architecture (CPU…)\nthis is out of scope for that talk, but one solution for that is to use a virtualized development environment: a docker container (cf https://rocker-project.org/) that contains a fixed version of R, and of all the needed external packages.\nnow the challenge is to synchronize that docker container version with your source library version…\nalso cf https://code.visualstudio.com/docs/devcontainers/containers\n\n\n\nSummary\nscript --&gt; script+functions --&gt; script + source files --&gt;  R package --&gt; R source package --&gt; R source library [ + R docker env]"
+  },
+  {
+    "objectID": "posts/organizing_dev_with_srcpkgs/index.html#my-recommended-project-setup",
+    "href": "posts/organizing_dev_with_srcpkgs/index.html#my-recommended-project-setup",
+    "title": "Organizing R development using srcpkgs",
+    "section": "My recommended project setup",
+    "text": "My recommended project setup\n\nthe source library of R packages\n\nshould be a single dedicated git repository\n\nrecommended since it’s easier to have consistent versions of interdependent packages\nbut each package could be in its own git repository if needed\n\neach package should contain tests (very important, even if it’s counter intuitive, but there is usually more value in the test suite than in the code itself, don’t get me started on that…)\nfor internal packages, especially for a public of developers I personally that the documentation is less important, for example that for a publicly released package.\nyou should use CI (Continuous Integration, like github actions or gitlab CI) to automatically run the automated tests each time you push to the repository.\nalso, reporting the test coverage is important\n\nthe project code\n\nMUST be versioned in a git repository (in github/gitlab…)\nshould itself be a R (source) package\n\neasier to add tests, documentation, vignettes\n\nbut can be a single script or a set of source files\ncontain a given version (commit/tag/branch) of the source library as a git submodule\nshould contain a vscode devcontainer to execute the project’s code (automatically usable via github codespaces)"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "Just started… Will try to post stuff that matters to me…"
+  }
+]
