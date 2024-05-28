@@ -7,6 +7,34 @@
     "text": "Organizing R development using srcpkgs\n\n\n\n\n\n\nR\n\n\nsrcpkgs\n\n\ndev\n\n\n\n\n\n\n\n\n\nMay 27, 2024\n\n\nKarl Forner\n\n\n\n\n\n\nNo matching items"
   },
   {
+    "objectID": "contributions.html",
+    "href": "contributions.html",
+    "title": "my OpenSource contributions",
+    "section": "",
+    "text": "Perl\n\nDBIx::Class::LookupColumn (with Thomas Rubbatel) - https://metacpan.org/pod/DBIx::Class::LookupColumn::Auto\n\nR\n\nsrcpkgs: https://github.com/kforner/srcpkgs\nRcppProgress: https://github.com/kforner/rcpp_progress\nPlinker: https://github.com/kforner/plinker_pkg (note: not on CRAN)\nquartzbio.edp: https://github.com/kforner/quartzbio.edp\nallelic (fueatest): https://cran.r-project.org/web/packages/allelic/index.html (removed from CRAN), https://github.com/kforner/fueatest\nsnplinkage (with others): https://cran.r-project.org/web/packages/snplinkage/\n\n\n\n\n\nTransmart docker: https://github.com/kforner/docker_transmart\nR coverage patch: adding test coverage support in the R interpreter\n\nhttps://github.com/kforner/r-coverage-patch\nhttps://github.com/kforner/r-coverage-docker\n\n\n\n\n\n\n\n\n\ndebugme: https://github.com/r-lib/debugme/pull/21\ndevtools:\n\nhttps://github.com/r-lib/devtools/pull/334\n\n\ncovr:\n\nhttps://github.com/r-lib/covr/pull/202\nhttps://github.com/r-lib/covr/pull/193\nhttps://github.com/r-lib/covr/pull/123\nhttps://github.com/r-lib/covr/pull/32\nhttps://github.com/r-lib/covr/pull/30\n\nhttptest:\n\nhttps://github.com/nealrichardson/httptest/pull/79\nhttps://github.com/nealrichardson/httptest/pull/77\n\nhttptest2 - https://github.com/nealrichardson/httptest2/pull/22\nknitr:\n\nhttps://github.com/yihui/knitr/pull/1345\nhttps://github.com/yihui/knitr/pull/832\nhttps://github.com/yihui/knitr/pull/831\n\ntestthat:\n\nhttps://github.com/r-lib/testthat/pull/823\nhttps://github.com/r-lib/testthat/pull/268\nhttps://github.com/r-lib/testthat/pull/214\nhttps://github.com/r-lib/testthat/pull/120\nhttps://github.com/r-lib/testthat/pull/106\nhttps://github.com/r-lib/testthat/pull/98\nhttps://github.com/r-lib/testthat/pull/96\nhttps://github.com/r-lib/testthat/pull/85\n\n\n\n\n\n\ntrivy-offline - https://github.com/sighupio/trivy-offline/pull/13\nsast-parser - https://github.com/pcfens/sast-parser/pull/5\nmt-aws-glacier: https://github.com/vsespb/mt-aws-glacier/pull/24\nrocker:\n\nhttps://github.com/rocker-org/website/pull/4\nhttps://github.com/rocker-org/rocker-versioned/pull/57\nhttps://github.com/rocker-org/rocker-versioned/pull/7\nhttps://github.com/rocker-org/rocker-versioned/pull/5\nhttps://github.com/rocker-org/rocker-versioned/pull/3\n\nswig: Incorporated some patches to the Perl5 module related to           the -hide option and the destruction of objects.           Patch submitted by Karl Forner.\n\n\n\n\n\nrclone - https://github.com/rclone/rclone/pull/5556\n\n\n\n\n\n\nR\n\nR 3.0.3 - namespaceImportFrom() needed to detect primitive functions when checking for duplicated imports (reported by Karl Forner).\nR 3.0.2 - package.skeleton() was not starting its search for function objects in the correct place if environment was supplied. (Reported by Karl Forner.)\nR 3.0.1 - The return value when all workers failed from parallel::mclapply(mc.preschedule = TRUE) was a list of strings and not of error objects. (Spotted by Karl Forner and Bernd Bischl.)"
+  },
+  {
+    "objectID": "contributions.html#published-opensource-projects",
+    "href": "contributions.html#published-opensource-projects",
+    "title": "my OpenSource contributions",
+    "section": "",
+    "text": "Perl\n\nDBIx::Class::LookupColumn (with Thomas Rubbatel) - https://metacpan.org/pod/DBIx::Class::LookupColumn::Auto\n\nR\n\nsrcpkgs: https://github.com/kforner/srcpkgs\nRcppProgress: https://github.com/kforner/rcpp_progress\nPlinker: https://github.com/kforner/plinker_pkg (note: not on CRAN)\nquartzbio.edp: https://github.com/kforner/quartzbio.edp\nallelic (fueatest): https://cran.r-project.org/web/packages/allelic/index.html (removed from CRAN), https://github.com/kforner/fueatest\nsnplinkage (with others): https://cran.r-project.org/web/packages/snplinkage/\n\n\n\n\n\nTransmart docker: https://github.com/kforner/docker_transmart\nR coverage patch: adding test coverage support in the R interpreter\n\nhttps://github.com/kforner/r-coverage-patch\nhttps://github.com/kforner/r-coverage-docker"
+  },
+  {
+    "objectID": "contributions.html#contributions-to-existing-projects",
+    "href": "contributions.html#contributions-to-existing-projects",
+    "title": "my OpenSource contributions",
+    "section": "",
+    "text": "debugme: https://github.com/r-lib/debugme/pull/21\ndevtools:\n\nhttps://github.com/r-lib/devtools/pull/334\n\n\ncovr:\n\nhttps://github.com/r-lib/covr/pull/202\nhttps://github.com/r-lib/covr/pull/193\nhttps://github.com/r-lib/covr/pull/123\nhttps://github.com/r-lib/covr/pull/32\nhttps://github.com/r-lib/covr/pull/30\n\nhttptest:\n\nhttps://github.com/nealrichardson/httptest/pull/79\nhttps://github.com/nealrichardson/httptest/pull/77\n\nhttptest2 - https://github.com/nealrichardson/httptest2/pull/22\nknitr:\n\nhttps://github.com/yihui/knitr/pull/1345\nhttps://github.com/yihui/knitr/pull/832\nhttps://github.com/yihui/knitr/pull/831\n\ntestthat:\n\nhttps://github.com/r-lib/testthat/pull/823\nhttps://github.com/r-lib/testthat/pull/268\nhttps://github.com/r-lib/testthat/pull/214\nhttps://github.com/r-lib/testthat/pull/120\nhttps://github.com/r-lib/testthat/pull/106\nhttps://github.com/r-lib/testthat/pull/98\nhttps://github.com/r-lib/testthat/pull/96\nhttps://github.com/r-lib/testthat/pull/85\n\n\n\n\n\n\ntrivy-offline - https://github.com/sighupio/trivy-offline/pull/13\nsast-parser - https://github.com/pcfens/sast-parser/pull/5\nmt-aws-glacier: https://github.com/vsespb/mt-aws-glacier/pull/24\nrocker:\n\nhttps://github.com/rocker-org/website/pull/4\nhttps://github.com/rocker-org/rocker-versioned/pull/57\nhttps://github.com/rocker-org/rocker-versioned/pull/7\nhttps://github.com/rocker-org/rocker-versioned/pull/5\nhttps://github.com/rocker-org/rocker-versioned/pull/3\n\nswig: Incorporated some patches to the Perl5 module related to           the -hide option and the destruction of objects.           Patch submitted by Karl Forner.\n\n\n\n\n\nrclone - https://github.com/rclone/rclone/pull/5556"
+  },
+  {
+    "objectID": "contributions.html#important-bug-reports-leading-to-official-fixes",
+    "href": "contributions.html#important-bug-reports-leading-to-official-fixes",
+    "title": "my OpenSource contributions",
+    "section": "",
+    "text": "R\n\nR 3.0.3 - namespaceImportFrom() needed to detect primitive functions when checking for duplicated imports (reported by Karl Forner).\nR 3.0.2 - package.skeleton() was not starting its search for function objects in the correct place if environment was supplied. (Reported by Karl Forner.)\nR 3.0.1 - The return value when all workers failed from parallel::mclapply(mc.preschedule = TRUE) was a list of strings and not of error objects. (Spotted by Karl Forner and Bernd Bischl.)"
+  },
+  {
     "objectID": "posts/organizing_dev_with_srcpkgs/index.html",
     "href": "posts/organizing_dev_with_srcpkgs/index.html",
     "title": "Organizing R development using srcpkgs",
@@ -46,6 +74,6 @@
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "Just started… Will try to post stuff that matters to me…"
+    "text": "I am a computer scientist (and mathematician) by training, and always worked in bioinformatics and pharmaceutical field. I am really experienced in R programming (but I also code in Perl, Python, C++, java) and more generally in setting up and leading software development platforms, in particular for reproducible research.\nI am also fond of software optimization and parallelization.\nLately, I’m working as a consultant on, so don’t hesitate to contact me if you like my work.\nAnd I am a fervent proponent of OpenSource software:\nmy OpenSource contributions"
   }
 ]
