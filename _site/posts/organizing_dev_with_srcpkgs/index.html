@@ -104,6 +104,15 @@ ul.task-list li input[type="checkbox"] {
 </i> 
 <span class="menu-text"></span></a>
   </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../index.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://www.r-bloggers.com"> 
+<span class="menu-text"><img src="https://scontent.xx.fbcdn.net/v/t39.30808-1/309377566_639578587529093_6323215786823147763_n.png?stp=cp0_dst-png_p50x50&amp;_nc_cat=107&amp;ccb=1-7&amp;_nc_sid=5f2048&amp;_nc_ohc=So4PkSOb-x0Q7kNvgEK0y5_&amp;_nc_ht=scontent.xx&amp;edm=APZrng4EAAAA&amp;oh=00_AYCdbcFnJMxNrILyR_gN7VUXmI9I4ybUSiywL1b2EqNFcw&amp;oe=66637234" class="img-fluid" alt="toto"></span></a>
+  </li>  
 </ul>
           </div> <!-- /navcollapse -->
           <div class="quarto-navbar-tools">
@@ -153,13 +162,16 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a>
+  <ul class="collapse">
   <li><a href="#r-packages" id="toc-r-packages" class="nav-link" data-scroll-target="#r-packages">R packages</a></li>
+  </ul></li>
   <li><a href="#on-the-natural-evolution-of-code-projects" id="toc-on-the-natural-evolution-of-code-projects" class="nav-link" data-scroll-target="#on-the-natural-evolution-of-code-projects">On the natural evolution of code projects…</a>
   <ul class="collapse">
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
   </ul></li>
   <li><a href="#my-recommended-project-setup" id="toc-my-recommended-project-setup" class="nav-link" data-scroll-target="#my-recommended-project-setup">My recommended project setup</a></li>
+  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources">Resources:</a></li>
   </ul>
 </nav>
     </div>
@@ -170,21 +182,19 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<p>Some notes for a talk about <code>srcpkgs</code> for the <a href="https://www.sib.swiss/vital-it">Vital-IT</a> Analysts meeting</p>
 <section id="overview" class="level2">
 <h2 class="anchored" data-anchor-id="overview">Overview</h2>
-<p>This is about how to organize R projects in order to:</p>
+<p>This is an introduction on organizing R projects using source packages (powered by my R package <a href="https://kforner.github.io/srcpkgs/">srcpkgs</a>). It is based on notes for a talk I have on 2024-05-27 for the <a href="https://www.sib.swiss/vital-it">Swiss Institute of Bioinformatics Vital-IT group</a> Analysts meeting.</p>
+<p>The obecjtiveis to organize R projects in order to:</p>
 <ul>
 <li>reuse code</li>
 <li>share code</li>
 <li>increase robustness</li>
 <li>enable analysis (code) reproducibility</li>
-<li>have fun</li>
 </ul>
 <p>The context is mostly for analysis oriented R projects.</p>
-</section>
-<section id="r-packages" class="level2">
-<h2 class="anchored" data-anchor-id="r-packages">R packages</h2>
+<section id="r-packages" class="level3">
+<h3 class="anchored" data-anchor-id="r-packages">R packages</h3>
 <p>All R users use R packages, the core ones such as base, stats, tools, and some from CRAN or BioConductor.</p>
 <p>Why would you want to use R packages for your own code???</p>
 <p>a R package is:</p>
@@ -196,13 +206,14 @@ ul.task-list li input[type="checkbox"] {
 <li>the dependencies are explicitly stated, and are themselves R packages</li>
 </ul>
 </section>
+</section>
 <section id="on-the-natural-evolution-of-code-projects" class="level2">
 <h2 class="anchored" data-anchor-id="on-the-natural-evolution-of-code-projects">On the natural evolution of code projects…</h2>
 <p>My view on the general evolution of analysis projects:</p>
 <ul>
-<li>you start with a <strong>single script</strong>, sequential, with no functions</li>
-<li>at one point (after writing hundreds or thousands of lines) you realize that you need some <strong>functions</strong></li>
-<li>then you start reusing those functions across projects by copy/paste. This raises a number of problems
+<li><p>you start with a <strong>single script</strong>, sequential, with no functions</p></li>
+<li><p>at one point (after writing hundreds or thousands of lines) you realize that you need some <strong>functions</strong></p></li>
+<li><p>then you start reusing those functions across projects by copy/paste. This raises a number of problems</p>
 <ul>
 <li>versioning: at one point you will fix or improve such a function
 <ul>
@@ -210,7 +221,7 @@ ul.task-list li input[type="checkbox"] {
 <li>what of the projects that contain the incorrect versions?</li>
 </ul></li>
 </ul></li>
-<li>then you may want, if you work in a team, to share this code with colleagues, or to use theirs
+<li><p>then you may want, if you work in a team, to share this code with colleagues, or to use theirs</p>
 <ul>
 <li>–&gt; it requires some <strong>documentation</strong>, even terse.</li>
 <li>there’s a increased <strong>responsibility</strong>. What if your code is wrong and impact the projects of your colleagues? One remedy is to write tests for those functions.</li>
@@ -220,11 +231,11 @@ ul.task-list li input[type="checkbox"] {
 <li>if you start to use a low-level function in your project, and that in the next version it has been refactored and that this function has been changed, or removed, updating the shared code will break the project.</li>
 </ul></li>
 </ul></li>
-<li>for all those reasons you start packaging your reusable code as a <strong>R package</strong>
+<li><p>for all those reasons you start packaging your reusable code as a <strong>R package</strong></p>
 <ul>
 <li>you can add documentation, tests, group code logically. It brings a namespace so that you can decide what you expose.</li>
 </ul></li>
-<li>But… it does NOT really solve the <strong>versioning</strong> problem
+<li><p>But… it does NOT really solve the <strong>versioning</strong> problem</p>
 <ul>
 <li>in R, packages have to be <strong>installed</strong> (e.g.&nbsp;using <code>install.packages()</code>) before you can use them with <code>library(mypkg)</code></li>
 <li>packages have a version number (N.B: this is not the same as <em>code versioning</em>)</li>
@@ -236,30 +247,30 @@ ul.task-list li input[type="checkbox"] {
 <li>finally, if you manage to fix it. You have to publish it, install it.</li>
 </ul></li>
 </ul></li>
-<li>my approach is to use what I call <strong>R source packages</strong>
+<li><p>my approach is to use what I call <strong>R source packages</strong></p>
 <ul>
 <li>they are normal R packages, but instead of installing them on your R system, you load them directly from source in your R session.</li>
 <li>it was made possible by the infamous <strong>Hadley Wickham</strong>, and his <code>devtools::load_all()</code> function, that mimics the loading of an installed package</li>
 <li>this greatly helps with all those problems:
 <ul>
-<li>you embed your source packages inside your project (as git submodules, we’ll that see later) this solves the versioning/reproducibiliy at your reusable code level: all your projects may use a different version</li>
+<li>you embed your source packages inside your project (as <em>git submodules</em>, we’ll that see later) this solves the versioning/reproducibility at your reusable code level: all your projects may use a different version</li>
 </ul></li>
 <li>if you need to fix a bug, or improve and augment your reusable code, it’s a simple as editing the code for your project. And using <code>srcpkgs</code>, you can even easily reload the code inside your existing R sessions, without losing any computed data.</li>
 </ul></li>
-<li>so far so good. Then for ease of maintenance/modularity, you start splitting your reusable code by category, and develop several R packages, e.g.&nbsp;one for some misc utilities, one for loading data from your database, one for some specific analysis…
+<li><p>so far so good. Then for ease of maintenance/modularity, you start splitting your reusable code by category, and develop several R packages, e.g.&nbsp;one for some misc utilities, one for loading data from your database, one for some specific analysis…</p>
 <ul>
-<li>this is where <code>srcpkgs</code> become usefuls, since <code>devtools</code> was designed to manage a <strong>single R source package</strong>, not a collection/<strong>library</strong> of possible inter-dependent packages.
+<li>this is where <code>srcpkgs</code> become usefuls, since <code>devtools</code> was designed to manage a <strong>single R source package</strong>, not a collection/<strong>library</strong> of possibly inter-dependent packages.
 <ul>
 <li>additionally has a useful little hack that enables you to use the standard <code>library()</code> function to load your source packages. So that when you analysis is finalized, or deployed in <em>production</em>, with your packages installed in the standard way, your script will continue to worl without any change.</li>
 </ul></li>
 </ul></li>
-<li>But this does not solve the reproducibility for the external packages
+<li><p>But this does not solve the <strong>reproducibility</strong> for the external packages</p>
 <ul>
 <li>your code and source library most certainly use external packages, and also depend on your R version (and thus on the <em>bioconductor</em> version)</li>
 <li>it may also depend on your OS architecture (CPU…)</li>
 <li>this is out of scope for that talk, but one solution for that is to use a virtualized development environment: a <strong>docker</strong> container (cf https://rocker-project.org/) that contains a fixed version of <strong>R</strong>, and of all the needed external packages.</li>
 <li>now the challenge is to synchronize that docker container version with your source library version…</li>
-<li>also cf https://code.visualstudio.com/docs/devcontainers/containers</li>
+<li>also cf <a href="https://code.visualstudio.com/docs/devcontainers/containers">devcontainers</a></li>
 </ul></li>
 </ul>
 <section id="summary" class="level3">
@@ -284,7 +295,7 @@ ul.task-list li input[type="checkbox"] {
 </ul></li>
 <li>the <strong>project code</strong>
 <ul>
-<li>MUST be versioned in a git repository (in github/gitlab…)</li>
+<li>MUST be versioned in a git repository (in github/gitlab…): one repository per project</li>
 <li>should itself be a R (source) package
 <ul>
 <li>easier to add tests, documentation, vignettes</li>
@@ -293,7 +304,19 @@ ul.task-list li input[type="checkbox"] {
 <li>contain a given version (commit/tag/branch) of the source library as a <strong>git submodule</strong></li>
 <li>should contain a <strong>vscode devcontainer</strong> to execute the project’s code (automatically usable via <strong>github codespaces</strong>)</li>
 </ul></li>
+<li>the project R code will then use the <code>srcpkgs</code> package, that will automatically <strong>discover</strong> the R packages contained in the project folder, and transparently load them using the <em>hacked</em> <code>library()</code> function as if they were installed packages.</li>
 </ul>
+</section>
+<section id="resources" class="level1">
+<h1>Resources:</h1>
+<ul>
+<li>the github repository of <a href="https://github.com/kforner/srcpkgs"><code>srcpkgs</code></a></li>
+<li>the <a href="https://kforner.github.io/srcpkgs/">online documentation</a>
+<ul>
+<li>notably this demo vignette: <a href="https://kforner.github.io/srcpkgs/articles/demo.html">why would you need srcpkgs?</a></li>
+</ul></li>
+</ul>
+<p><a href="../../about">I (Karl Forner)</a> am currently working as a consultant, contact me if you want me to help you on using R, organizing development, developing R packages</p>
 
 
 </section>
