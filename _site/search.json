@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "Karl Forner’s blog",
     "section": "",
-    "text": "Organizing R development using srcpkgs\n\n\n\n\n\n\nR\n\n\nsrcpkgs\n\n\ndev\n\n\n\n\n\n\n\n\n\nMay 27, 2024\n\n\nKarl Forner\n\n\n\n\n\n\nNo matching items"
+    "text": "an elegant way to fix user IDs in docker containers using docker_userid_fixer\n\n\n\n\n\n\ndocker\n\n\nreproducible_research\n\n\ndevops\n\n\n\n\n\n\n\n\n\nAug 14, 2024\n\n\nKarl Forner\n\n\n\n\n\n\n\n\n\n\n\n\nOrganizing R development using srcpkgs\n\n\n\n\n\n\nR\n\n\nsrcpkgs\n\n\ndev\n\n\n\n\n\n\n\n\n\nMay 27, 2024\n\n\nKarl Forner\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "contributions.html",
@@ -39,14 +39,14 @@
     "href": "posts/organizing_dev_with_srcpkgs/index.html",
     "title": "Organizing R development using srcpkgs",
     "section": "",
-    "text": "This is an introduction on organizing R projects using source packages (powered by my R package srcpkgs). It is based on notes for a talk I have on 2024-05-27 for the Swiss Institute of Bioinformatics Vital-IT group Analysts meeting.\nThe obecjtiveis to organize R projects in order to:\n\nreuse code\nshare code\nincrease robustness\nenable analysis (code) reproducibility\n\nThe context is mostly for analysis oriented R projects.\n\n\nAll R users use R packages, the core ones such as base, stats, tools, and some from CRAN or BioConductor.\nWhy would you want to use R packages for your own code???\na R package is:\n\nself-contained\n\nit bundles together all related code, the documentation, the relevant data and tests\n\nthe dependencies are explicitly stated, and are themselves R packages"
+    "text": "This is an introduction on organizing R projects using source packages (powered by my R package srcpkgs). It is based on notes for a talk I have on 2024-05-27 for the Swiss Institute of Bioinformatics Vital-IT group Analysts meeting.\nThe obecjtive is to organize R projects in order to:\n\nreuse code\nshare code\nincrease robustness\nenable analysis (code) reproducibility\n\nThe context is mostly for analysis oriented R projects.\n\n\nAll R users use R packages, the core ones such as base, stats, tools, and some from CRAN or BioConductor.\nWhy would you want to use R packages for your own code???\na R package is:\n\nself-contained\n\nit bundles together all related code, the documentation, the relevant data and tests\n\nthe dependencies are explicitly stated, and are themselves R packages"
   },
   {
     "objectID": "posts/organizing_dev_with_srcpkgs/index.html#overview",
     "href": "posts/organizing_dev_with_srcpkgs/index.html#overview",
     "title": "Organizing R development using srcpkgs",
     "section": "",
-    "text": "This is an introduction on organizing R projects using source packages (powered by my R package srcpkgs). It is based on notes for a talk I have on 2024-05-27 for the Swiss Institute of Bioinformatics Vital-IT group Analysts meeting.\nThe obecjtiveis to organize R projects in order to:\n\nreuse code\nshare code\nincrease robustness\nenable analysis (code) reproducibility\n\nThe context is mostly for analysis oriented R projects.\n\n\nAll R users use R packages, the core ones such as base, stats, tools, and some from CRAN or BioConductor.\nWhy would you want to use R packages for your own code???\na R package is:\n\nself-contained\n\nit bundles together all related code, the documentation, the relevant data and tests\n\nthe dependencies are explicitly stated, and are themselves R packages"
+    "text": "This is an introduction on organizing R projects using source packages (powered by my R package srcpkgs). It is based on notes for a talk I have on 2024-05-27 for the Swiss Institute of Bioinformatics Vital-IT group Analysts meeting.\nThe obecjtive is to organize R projects in order to:\n\nreuse code\nshare code\nincrease robustness\nenable analysis (code) reproducibility\n\nThe context is mostly for analysis oriented R projects.\n\n\nAll R users use R packages, the core ones such as base, stats, tools, and some from CRAN or BioConductor.\nWhy would you want to use R packages for your own code???\na R package is:\n\nself-contained\n\nit bundles together all related code, the documentation, the relevant data and tests\n\nthe dependencies are explicitly stated, and are themselves R packages"
   },
   {
     "objectID": "posts/organizing_dev_with_srcpkgs/index.html#on-the-natural-evolution-of-code-projects",
@@ -61,6 +61,62 @@
     "title": "Organizing R development using srcpkgs",
     "section": "My recommended project setup",
     "text": "My recommended project setup\n\nthe source library of R packages\n\nshould be a single dedicated git repository\n\nrecommended since it’s easier to have consistent versions of interdependent packages\nbut each package could be in its own git repository if needed\n\neach package should contain tests (very important, even if it’s counter intuitive, but there is usually more value in the test suite than in the code itself, don’t get me started on that…)\nfor internal packages, especially for a public of developers I personally that the documentation is less important, for example that for a publicly released package.\nyou should use CI (Continuous Integration, like github actions or gitlab CI) to automatically run the automated tests each time you push to the repository.\nalso, reporting the test coverage is important\n\nthe project code\n\nMUST be versioned in a git repository (in github/gitlab…): one repository per project\nshould itself be a R (source) package\n\neasier to add tests, documentation, vignettes\n\nbut can be a single script or a set of source files\ncontain a given version (commit/tag/branch) of the source library as a git submodule\nshould contain a vscode devcontainer to execute the project’s code (automatically usable via github codespaces)\n\nthe project R code will then use the srcpkgs package, that will automatically discover the R packages contained in the project folder, and transparently load them using the hacked library() function as if they were installed packages."
+  },
+  {
+    "objectID": "posts/docker_userid_fixer_intro/index.html",
+    "href": "posts/docker_userid_fixer_intro/index.html",
+    "title": "an elegant way to fix user IDs in docker containers using docker_userid_fixer",
+    "section": "",
+    "text": "It’s about a rather technical issue in using docker containers that interact with the docker host computer, generally related to using the host filesystem inside the container. That happens in particular in reproducible research context. I developed an opensource utility that helps tackling that issue."
+  },
+  {
+    "objectID": "posts/docker_userid_fixer_intro/index.html#what-is-it-about",
+    "href": "posts/docker_userid_fixer_intro/index.html#what-is-it-about",
+    "title": "an elegant way to fix user IDs in docker containers using docker_userid_fixer",
+    "section": "",
+    "text": "It’s about a rather technical issue in using docker containers that interact with the docker host computer, generally related to using the host filesystem inside the container. That happens in particular in reproducible research context. I developed an opensource utility that helps tackling that issue."
+  },
+  {
+    "objectID": "posts/docker_userid_fixer_intro/index.html#docker-containers-as-execution-environments",
+    "href": "posts/docker_userid_fixer_intro/index.html#docker-containers-as-execution-environments",
+    "title": "an elegant way to fix user IDs in docker containers using docker_userid_fixer",
+    "section": "docker containers as execution environments",
+    "text": "docker containers as execution environments\nThe initial and main use case of a docker container: a self-contained application that only interacts with the host system with some network ports. Think of a web application: the docker container typically contains a web server and a web application, running for example on port 80 (inside the container). The container is then run on the host, by binding the container internal port 80 to a host port (e.g. 8000). Then the only interaction between the containerized app and the host system is via this bound network port.\nContainers as execution environments are completely different:\n\ninstead of containerizing an application, it’s the application build system that is containerized.\n\nit could a be a compiler, an IDE, a notebook engine, a Quarto publishing system…\n\nthe goals are:\n\nto have an standard, easy to install and share environment\n\nimagine a complex build environment, with fixed versions of R, python and zillions of external packages. Installing everything with the right versions can be a very difficult and time-consuming task. By sharing a docker image containing everything already installed and pre-configured is a real time-saver.\n\nto have a reproducible environment\n\nby using it, you are able to reproduce some analysis results, since you are using very same controlled environment\nyou can also easily reproduce bugs, which is the first step to fixing them\n\n\n\nBut, in order to use those execution environments, those containers must have access to the host system, in particular to the host user filesystem."
+  },
+  {
+    "objectID": "posts/docker_userid_fixer_intro/index.html#docker-containers-and-the-host-filesystem",
+    "href": "posts/docker_userid_fixer_intro/index.html#docker-containers-and-the-host-filesystem",
+    "title": "an elegant way to fix user IDs in docker containers using docker_userid_fixer",
+    "section": "docker containers and the host filesystem",
+    "text": "docker containers and the host filesystem\nSuppose you have containerized an IDE, e.g. Rstudio. Your Rstudio is installed and running inside the docker container, but it needs to read and edit files in your project folder.\nFor that you bind mount your project folder (in your host filesystem) using the docker run --volume option. Then your files are accessible from withing the docker container.\nThe challenge now are the file permissions. Suppose your host user has userid 1001, and suppose that the user owning the Rsudio process in the container is either 0 (root), or 1002.\nIf the container user is root, then it will have no issue in reading your files. But as soon as you edit some existing files, are produce new ones (e.g. pdf, html), these files will belong to root also on the host filesystem! Meaning that your local host user will not be able to use them, or delete them, since they belong to root.\nNow if the container user id is 1002, Rstudio may not be able to read your files, edit them or produce new files. Even if it can, by settings some very permissive permissions, your local host user may not be able to use them.\nOf course one bruteforce way of solving that issue is to run with root both on the host computer and withing the docker container. This is not always possible and raise some obvious critical security concerns."
+  },
+  {
+    "objectID": "posts/docker_userid_fixer_intro/index.html#solving-the-file-owner-issue-part-1-the-docker-run---user-option",
+    "href": "posts/docker_userid_fixer_intro/index.html#solving-the-file-owner-issue-part-1-the-docker-run---user-option",
+    "title": "an elegant way to fix user IDs in docker containers using docker_userid_fixer",
+    "section": "solving the file owner issue part 1: the docker run --user option",
+    "text": "solving the file owner issue part 1: the docker run --user option\nBecause we can not know in advance what will be the host userid (here 1001), we can not pre-configure the userid of the docker container user.\ndocker run now provides a --user option that enables to create a pseudo user with some supplied userid at runtime. For example, docker run --user 1001 ... will create a docker container running with processes belonging to a user with userid 1001.\nSo what are we still discussing this issue? Isn’t it solved?\nHere some quirks about that dynamically created user:\n\nit is a pseudo user\nit does not have a home directory (/home/xxx)\nit does not appear in /etc/passwd\nit can not be preconfigured, e.g. with a bash profile, some env vars, application defaults etc…\n\nWe can work-around these problems, but it can be tedious and frustrating. What we’d really like, is to pre-configure a docker container user, and be able to dynamically change his userid at runtime…"
+  },
+  {
+    "objectID": "posts/docker_userid_fixer_intro/index.html#solving-the-file-owner-issue-part-2-enter-docker_userid_fixer",
+    "href": "posts/docker_userid_fixer_intro/index.html#solving-the-file-owner-issue-part-2-enter-docker_userid_fixer",
+    "title": "an elegant way to fix user IDs in docker containers using docker_userid_fixer",
+    "section": "solving the file owner issue part 2: enter docker_userid_fixer",
+    "text": "solving the file owner issue part 2: enter docker_userid_fixer\ndocker_userid_fixer is an open source utility intended to be used as a docker entrypoint to fix the userid issue I just raised.\nLet’s see how to use it: you set it as your docker ENTRYPOINT, specifying which user should be used and have his userid dynamically modified:\nENTRYPOINT [\"/usr/local/bin/docker_userid_fixer\",\"user1\"]\nLet’s be precise in our terms:\n\nthe target user, is the user requested to docker_userid_fixer, here user1\nthe requested user, is the user provisioned by docker run, i.e the user that (intially) owns the first process (PID 1)\n\nThen, at the container runtime creation, there are two options:\n\neither the requested userid (already) matches the target userid, then nothing has to be changed\nor it does not. For example the requested userid is 1001, and the target userid is 100. Then, docker_userid_fixer will fix the userid of the target user user1 from 1000 to 1001, directly in the container main process.\n\nSo in practice this solves our issue:\n\nif you do not need to fix your container userid, just use docker run the usual way (without the --user option)\nor you use --user option, then in addition of running your main process with a userid you requested, it will modify your pre-configured user to your requested userid, so that your container is running with your intended user and intended userid."
+  },
+  {
+    "objectID": "posts/docker_userid_fixer_intro/index.html#docker_userid_fixer-setup",
+    "href": "posts/docker_userid_fixer_intro/index.html#docker_userid_fixer-setup",
+    "title": "an elegant way to fix user IDs in docker containers using docker_userid_fixer",
+    "section": "docker_userid_fixer setup",
+    "text": "docker_userid_fixer setup\nYou can find instructions about the setup here.\nBut it boils down to:\n\nbuild or download the tiny executable (17k)\ncopy it into your docker image\nmake it executable as setuid root\nconfigure it as your entrypoint"
+  },
+  {
+    "objectID": "posts/docker_userid_fixer_intro/index.html#the-gory-details",
+    "href": "posts/docker_userid_fixer_intro/index.html#the-gory-details",
+    "title": "an elegant way to fix user IDs in docker containers using docker_userid_fixer",
+    "section": "the gory details",
+    "text": "the gory details\nI have put some short notes https://github.com/kforner/docker_userid_fixer#how-it-works but I’ll try to rephrase.\nThe crux of the implementation is the setuid root of the docker_userid_fixer executable in the container. We need root permissions to change the userid, and this setuid enables that privileged execution only for the docker_userid_fixerprogram, and that for a very short time.\nAs soon as the userid has been modified if needed, docker_userid_fixer will switch the main process to the requested user (and userid!)."
   },
   {
     "objectID": "about.html",

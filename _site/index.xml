@@ -10,7 +10,116 @@
 <atom:link href="https://kforner.netlify.app/index.xml" rel="self" type="application/rss+xml"/>
 <description>Karl Forner&#39;s blog</description>
 <generator>quarto-1.4.554</generator>
-<lastBuildDate>Sun, 26 May 2024 22:00:00 GMT</lastBuildDate>
+<lastBuildDate>Tue, 13 Aug 2024 22:00:00 GMT</lastBuildDate>
+<item>
+  <title>an elegant way to fix user IDs in docker containers using docker_userid_fixer</title>
+  <dc:creator>Karl Forner</dc:creator>
+  <link>https://kforner.netlify.app/posts/docker_userid_fixer_intro/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<section id="what-is-it-about" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-it-about">what is it about?</h2>
+<p>It’s about a rather technical issue in using docker containers that interact with the docker host computer, generally related to using the host filesystem inside the container. That happens in particular in reproducible research context. I developed an opensource utility that helps tackling that issue.</p>
+</section>
+<section id="docker-containers-as-execution-environments" class="level2">
+<h2 class="anchored" data-anchor-id="docker-containers-as-execution-environments">docker containers as execution environments</h2>
+<p>The initial and main use case of a docker container: a <em>self-contained</em> application that only interacts with the host system with some network ports. Think of a web application: the docker container typically contains a web server and a web application, running for example on port 80 (inside the container). The container is then run on the host, by binding the container internal port 80 to a host port (e.g.&nbsp;8000). Then the only interaction between the containerized app and the host system is via this bound network port.</p>
+<p>Containers as execution environments are completely different:</p>
+<ul>
+<li>instead of containerizing an application, it’s the <strong>application build system</strong> that is containerized.
+<ul>
+<li>it could a be a compiler, an IDE, a notebook engine, a Quarto publishing system…</li>
+</ul></li>
+<li>the goals are:
+<ul>
+<li>to have an <strong>standard</strong>, easy to install and share environment
+<ul>
+<li>imagine a complex build environment, with fixed versions of R, python and zillions of external packages. Installing everything with the right versions can be a very difficult and time-consuming task. By sharing a docker image containing everything already installed and pre-configured is a real time-saver.</li>
+</ul></li>
+<li>to have a <strong>reproducible</strong> environment
+<ul>
+<li>by using it, you are able to reproduce some analysis results, since you are using very same controlled environment</li>
+<li>you can also easily reproduce bugs, which is the first step to fixing them</li>
+</ul></li>
+</ul></li>
+</ul>
+<p>But, in order to use those execution environments, those containers must have access to the host system, in particular to the host user filesystem.</p>
+</section>
+<section id="docker-containers-and-the-host-filesystem" class="level2">
+<h2 class="anchored" data-anchor-id="docker-containers-and-the-host-filesystem">docker containers and the host filesystem</h2>
+<p>Suppose you have containerized an IDE, e.g.&nbsp;Rstudio. Your Rstudio is installed and running inside the docker container, but it needs to read and edit files in your project folder.</p>
+<p>For that you <strong>bind mount</strong> your project folder (in your host filesystem) using the docker run <code>--volume</code> option. Then your files are accessible from withing the docker container.</p>
+<p>The challenge now are the file permissions. Suppose your host user has userid <strong>1001</strong>, and suppose that the user owning the Rsudio process in the container is either <strong>0</strong> (root), or <strong>1002</strong>.</p>
+<p>If the container user is <strong>root</strong>, then it will have no issue in reading your files. But as soon as you edit some existing files, are produce new ones (e.g.&nbsp;pdf, html), these files will belong to root <strong>also on the host filesystem!</strong> Meaning that your local host user will not be able to use them, or delete them, since they belong to root.</p>
+<p>Now if the container user id is <strong>1002</strong>, Rstudio may not be able to read your files, edit them or produce new files. Even if it can, by settings some very permissive permissions, your local host user may not be able to use them.</p>
+<p>Of course one bruteforce way of solving that issue is to run with root both on the host computer and withing the docker container. This is not always possible and raise some obvious critical security concerns.</p>
+</section>
+<section id="solving-the-file-owner-issue-part-1-the-docker-run---user-option" class="level2">
+<h2 class="anchored" data-anchor-id="solving-the-file-owner-issue-part-1-the-docker-run---user-option">solving the file owner issue part 1: the docker run <code>--user</code> option</h2>
+<p>Because we can not know in advance what will be the host userid (here <strong>1001</strong>), we can not pre-configure the userid of the docker container user.</p>
+<p><strong>docker run</strong> now provides a <code>--user</code> option that enables to create a <strong>pseudo</strong> user with some supplied userid at runtime. For example, <code>docker run --user 1001 ...</code> will create a docker container running with processes belonging to a user with userid <strong>1001</strong>.</p>
+<p>So what are we still discussing this issue? Isn’t it solved?</p>
+<p>Here some quirks about that dynamically created user:</p>
+<ul>
+<li>it is a pseudo user</li>
+<li>it does not have a home directory (/home/xxx)</li>
+<li>it does not appear in <code>/etc/passwd</code></li>
+<li>it can not be preconfigured, e.g.&nbsp;with a bash profile, some env vars, application defaults etc…</li>
+</ul>
+<p>We can work-around these problems, but it can be tedious and frustrating. What we’d really like, is to pre-configure a docker container user, and be able to dynamically change his <strong>userid</strong> at <strong>runtime</strong>…</p>
+</section>
+<section id="solving-the-file-owner-issue-part-2-enter-docker_userid_fixer" class="level2">
+<h2 class="anchored" data-anchor-id="solving-the-file-owner-issue-part-2-enter-docker_userid_fixer">solving the file owner issue part 2: enter <code>docker_userid_fixer</code></h2>
+<p><a href="https://github.com/kforner/docker_userid_fixer">docker_userid_fixer</a> is an open source utility intended to be used as a <strong>docker entrypoint</strong> to fix the userid issue I just raised.</p>
+<p>Let’s see how to use it: you set it as your docker <code>ENTRYPOINT</code>, specifying which user should be used and have his <em>userid</em> dynamically modified:</p>
+<pre><code>ENTRYPOINT ["/usr/local/bin/docker_userid_fixer","user1"]</code></pre>
+<p>Let’s be precise in our terms:</p>
+<ul>
+<li>the <strong>target</strong> user, is the user requested to docker_userid_fixer, here <strong>user1</strong></li>
+<li>the <strong>requested</strong> user, is the user provisioned by <code>docker run</code>, i.e the user that (intially) owns the first process (PID 1)</li>
+</ul>
+<p>Then, at the container runtime creation, there are two options:</p>
+<ul>
+<li>either the <strong>requested</strong> userid (already) matches the <strong>target</strong> userid, then nothing has to be changed</li>
+<li>or it does not. For example the <strong>requested</strong> userid is <strong>1001</strong>, and the <strong>target</strong> userid is <strong>100</strong>. Then, <code>docker_userid_fixer</code> will fix the userid of the <strong>target</strong> user <strong>user1</strong> from 1000 to 1001, directly in the container main process.</li>
+</ul>
+<p>So in practice this solves our issue:</p>
+<ul>
+<li>if you do not need to fix your container userid, just use docker run the usual way (without the <code>--user</code> option)</li>
+<li>or you use <code>--user</code> option, then in addition of running your main process with a userid you requested, it will modify your pre-configured user to your requested userid, so that your container is running with your intended user and intended userid.</li>
+</ul>
+</section>
+<section id="docker_userid_fixer-setup" class="level2">
+<h2 class="anchored" data-anchor-id="docker_userid_fixer-setup">docker_userid_fixer setup</h2>
+<p>You can find instructions about the setup <a href="https://github.com/kforner/docker_userid_fixer#setup">here</a>.</p>
+<p>But it boils down to:</p>
+<ul>
+<li>build or download the tiny executable (17k)</li>
+<li>copy it into your docker image</li>
+<li>make it executable as setuid root</li>
+<li>configure it as your entrypoint</li>
+</ul>
+</section>
+<section id="the-gory-details" class="level2">
+<h2 class="anchored" data-anchor-id="the-gory-details">the gory details</h2>
+<p>I have put some short notes <a href="https://github.com/kforner/docker_userid_fixer#how-it-works">https://github.com/kforner/docker_userid_fixer#how-it-works</a> but I’ll try to rephrase.</p>
+<p>The crux of the implementation is the <strong>setuid root</strong> of the <code>docker_userid_fixer</code> executable in the container. We need root permissions to change the userid, and this setuid enables that privileged execution only for the <code>docker_userid_fixer</code>program, and that for a very short time.</p>
+<p>As soon as the userid has been modified if needed, <code>docker_userid_fixer</code> will switch the main process to the requested user (and userid!).</p>
+
+
+</section>
+
+ ]]></description>
+  <category>docker</category>
+  <category>reproducible_research</category>
+  <category>devops</category>
+  <guid>https://kforner.netlify.app/posts/docker_userid_fixer_intro/</guid>
+  <pubDate>Tue, 13 Aug 2024 22:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Organizing R development using srcpkgs</title>
   <dc:creator>Karl Forner</dc:creator>
@@ -24,7 +133,7 @@
 <section id="overview" class="level2">
 <h2 class="anchored" data-anchor-id="overview">Overview</h2>
 <p>This is an introduction on organizing R projects using source packages (powered by my R package <a href="https://kforner.github.io/srcpkgs/">srcpkgs</a>). It is based on notes for a talk I have on 2024-05-27 for the <a href="https://www.sib.swiss/vital-it">Swiss Institute of Bioinformatics Vital-IT group</a> Analysts meeting.</p>
-<p>The obecjtiveis to organize R projects in order to:</p>
+<p>The obecjtive is to organize R projects in order to:</p>
 <ul>
 <li>reuse code</li>
 <li>share code</li>
@@ -155,7 +264,7 @@
 <li>notably this demo vignette: <a href="https://kforner.github.io/srcpkgs/articles/demo.html">why would you need srcpkgs?</a></li>
 </ul></li>
 </ul>
-<p><a href="../../about">I (Karl Forner)</a> am currently working as a consultant, contact me if you want me to help you on using R, organizing development, developing R packages</p>
+<p><a href="../../about">I (Karl Forner)</a> am currently working as a consultant, contact me if you want me to help you on using R, organizing development, developing R packages or more generally support your software development efforts.</p>
 
 
 </section>

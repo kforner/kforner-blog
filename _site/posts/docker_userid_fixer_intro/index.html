@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Karl Forner">
+<meta name="dcterms.date" content="2024-08-14">
 
-<title>kforner</title>
+<title>kforner - an elegant way to fix user IDs in docker containers using docker_userid_fixer</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,22 +25,22 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -68,17 +70,17 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">kforner</span>
     </a>
   </div>
@@ -89,7 +91,7 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
+    <a class="nav-link" href="../../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item compact">
@@ -98,7 +100,7 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="./index.xml"> <i class="bi bi-rss" role="img">
+    <a class="nav-link" href="../../index.xml"> <i class="bi bi-rss" role="img">
 </i> 
 <span class="menu-text"></span></a>
   </li>  
@@ -114,128 +116,154 @@ ul.task-list li input[type="checkbox"] {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">an elegant way to fix user IDs in docker containers using docker_userid_fixer</h1>
+                                <div class="quarto-categories">
+                <div class="quarto-category">docker</div>
+                <div class="quarto-category">reproducible_research</div>
+                <div class="quarto-category">devops</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Karl Forner </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">August 14, 2024</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#what-is-it-about" id="toc-what-is-it-about" class="nav-link active" data-scroll-target="#what-is-it-about">what is it about?</a></li>
+  <li><a href="#docker-containers-as-execution-environments" id="toc-docker-containers-as-execution-environments" class="nav-link" data-scroll-target="#docker-containers-as-execution-environments">docker containers as execution environments</a></li>
+  <li><a href="#docker-containers-and-the-host-filesystem" id="toc-docker-containers-and-the-host-filesystem" class="nav-link" data-scroll-target="#docker-containers-and-the-host-filesystem">docker containers and the host filesystem</a></li>
+  <li><a href="#solving-the-file-owner-issue-part-1-the-docker-run---user-option" id="toc-solving-the-file-owner-issue-part-1-the-docker-run---user-option" class="nav-link" data-scroll-target="#solving-the-file-owner-issue-part-1-the-docker-run---user-option">solving the file owner issue part 1: the docker run <code>--user</code> option</a></li>
+  <li><a href="#solving-the-file-owner-issue-part-2-enter-docker_userid_fixer" id="toc-solving-the-file-owner-issue-part-2-enter-docker_userid_fixer" class="nav-link" data-scroll-target="#solving-the-file-owner-issue-part-2-enter-docker_userid_fixer">solving the file owner issue part 2: enter <code>docker_userid_fixer</code></a></li>
+  <li><a href="#docker_userid_fixer-setup" id="toc-docker_userid_fixer-setup" class="nav-link" data-scroll-target="#docker_userid_fixer-setup">docker_userid_fixer setup</a></li>
+  <li><a href="#the-gory-details" id="toc-the-gory-details" class="nav-link" data-scroll-target="#the-gory-details">the gory details</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
 
-<section id="my-opensource-contributions" class="level1">
-<h1>my OpenSource contributions</h1>
-<section id="published-opensource-projects" class="level2">
-<h2 class="anchored" data-anchor-id="published-opensource-projects">published opensource projects</h2>
+
+<section id="what-is-it-about" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-it-about">what is it about?</h2>
+<p>It’s about a rather technical issue in using docker containers that interact with the docker host computer, generally related to using the host filesystem inside the container. That happens in particular in reproducible research context. I developed an opensource utility that helps tackling that issue.</p>
+</section>
+<section id="docker-containers-as-execution-environments" class="level2">
+<h2 class="anchored" data-anchor-id="docker-containers-as-execution-environments">docker containers as execution environments</h2>
+<p>The initial and main use case of a docker container: a <em>self-contained</em> application that only interacts with the host system with some network ports. Think of a web application: the docker container typically contains a web server and a web application, running for example on port 80 (inside the container). The container is then run on the host, by binding the container internal port 80 to a host port (e.g.&nbsp;8000). Then the only interaction between the containerized app and the host system is via this bound network port.</p>
+<p>Containers as execution environments are completely different:</p>
 <ul>
-<li>Perl
+<li>instead of containerizing an application, it’s the <strong>application build system</strong> that is containerized.
 <ul>
-<li>DBIx::Class::LookupColumn (with Thomas Rubbatel) - https://metacpan.org/pod/DBIx::Class::LookupColumn::Auto</li>
+<li>it could a be a compiler, an IDE, a notebook engine, a Quarto publishing system…</li>
 </ul></li>
-<li>R
+<li>the goals are:
 <ul>
-<li>srcpkgs: https://github.com/kforner/srcpkgs</li>
-<li>RcppProgress: https://github.com/kforner/rcpp_progress</li>
-<li>Plinker: https://github.com/kforner/plinker_pkg (note: not on CRAN)</li>
-<li>quartzbio.edp: https://github.com/kforner/quartzbio.edp</li>
-<li>allelic (fueatest): https://cran.r-project.org/web/packages/allelic/index.html (removed from CRAN), https://github.com/kforner/fueatest</li>
-<li>snplinkage (with others): https://cran.r-project.org/web/packages/snplinkage/</li>
+<li>to have an <strong>standard</strong>, easy to install and share environment
+<ul>
+<li>imagine a complex build environment, with fixed versions of R, python and zillions of external packages. Installing everything with the right versions can be a very difficult and time-consuming task. By sharing a docker image containing everything already installed and pre-configured is a real time-saver.</li>
+</ul></li>
+<li>to have a <strong>reproducible</strong> environment
+<ul>
+<li>by using it, you are able to reproduce some analysis results, since you are using very same controlled environment</li>
+<li>you can also easily reproduce bugs, which is the first step to fixing them</li>
+</ul></li>
 </ul></li>
 </ul>
-<section id="deprecated-or-no-longer-pertinent" class="level3">
-<h3 class="anchored" data-anchor-id="deprecated-or-no-longer-pertinent">Deprecated or no longer pertinent</h3>
+<p>But, in order to use those execution environments, those containers must have access to the host system, in particular to the host user filesystem.</p>
+</section>
+<section id="docker-containers-and-the-host-filesystem" class="level2">
+<h2 class="anchored" data-anchor-id="docker-containers-and-the-host-filesystem">docker containers and the host filesystem</h2>
+<p>Suppose you have containerized an IDE, e.g.&nbsp;Rstudio. Your Rstudio is installed and running inside the docker container, but it needs to read and edit files in your project folder.</p>
+<p>For that you <strong>bind mount</strong> your project folder (in your host filesystem) using the docker run <code>--volume</code> option. Then your files are accessible from withing the docker container.</p>
+<p>The challenge now are the file permissions. Suppose your host user has userid <strong>1001</strong>, and suppose that the user owning the Rsudio process in the container is either <strong>0</strong> (root), or <strong>1002</strong>.</p>
+<p>If the container user is <strong>root</strong>, then it will have no issue in reading your files. But as soon as you edit some existing files, are produce new ones (e.g.&nbsp;pdf, html), these files will belong to root <strong>also on the host filesystem!</strong> Meaning that your local host user will not be able to use them, or delete them, since they belong to root.</p>
+<p>Now if the container user id is <strong>1002</strong>, Rstudio may not be able to read your files, edit them or produce new files. Even if it can, by settings some very permissive permissions, your local host user may not be able to use them.</p>
+<p>Of course one bruteforce way of solving that issue is to run with root both on the host computer and withing the docker container. This is not always possible and raise some obvious critical security concerns.</p>
+</section>
+<section id="solving-the-file-owner-issue-part-1-the-docker-run---user-option" class="level2">
+<h2 class="anchored" data-anchor-id="solving-the-file-owner-issue-part-1-the-docker-run---user-option">solving the file owner issue part 1: the docker run <code>--user</code> option</h2>
+<p>Because we can not know in advance what will be the host userid (here <strong>1001</strong>), we can not pre-configure the userid of the docker container user.</p>
+<p><strong>docker run</strong> now provides a <code>--user</code> option that enables to create a <strong>pseudo</strong> user with some supplied userid at runtime. For example, <code>docker run --user 1001 ...</code> will create a docker container running with processes belonging to a user with userid <strong>1001</strong>.</p>
+<p>So what are we still discussing this issue? Isn’t it solved?</p>
+<p>Here some quirks about that dynamically created user:</p>
 <ul>
-<li>Transmart docker: https://github.com/kforner/docker_transmart</li>
-<li>R coverage patch: adding test coverage support in the R interpreter
+<li>it is a pseudo user</li>
+<li>it does not have a home directory (/home/xxx)</li>
+<li>it does not appear in <code>/etc/passwd</code></li>
+<li>it can not be preconfigured, e.g.&nbsp;with a bash profile, some env vars, application defaults etc…</li>
+</ul>
+<p>We can work-around these problems, but it can be tedious and frustrating. What we’d really like, is to pre-configure a docker container user, and be able to dynamically change his <strong>userid</strong> at <strong>runtime</strong>…</p>
+</section>
+<section id="solving-the-file-owner-issue-part-2-enter-docker_userid_fixer" class="level2">
+<h2 class="anchored" data-anchor-id="solving-the-file-owner-issue-part-2-enter-docker_userid_fixer">solving the file owner issue part 2: enter <code>docker_userid_fixer</code></h2>
+<p><a href="https://github.com/kforner/docker_userid_fixer">docker_userid_fixer</a> is an open source utility intended to be used as a <strong>docker entrypoint</strong> to fix the userid issue I just raised.</p>
+<p>Let’s see how to use it: you set it as your docker <code>ENTRYPOINT</code>, specifying which user should be used and have his <em>userid</em> dynamically modified:</p>
+<pre><code>ENTRYPOINT ["/usr/local/bin/docker_userid_fixer","user1"]</code></pre>
+<p>Let’s be precise in our terms:</p>
 <ul>
-<li>https://github.com/kforner/r-coverage-patch</li>
-<li>https://github.com/kforner/r-coverage-docker</li>
-</ul></li>
+<li>the <strong>target</strong> user, is the user requested to docker_userid_fixer, here <strong>user1</strong></li>
+<li>the <strong>requested</strong> user, is the user provisioned by <code>docker run</code>, i.e the user that (intially) owns the first process (PID 1)</li>
+</ul>
+<p>Then, at the container runtime creation, there are two options:</p>
+<ul>
+<li>either the <strong>requested</strong> userid (already) matches the <strong>target</strong> userid, then nothing has to be changed</li>
+<li>or it does not. For example the <strong>requested</strong> userid is <strong>1001</strong>, and the <strong>target</strong> userid is <strong>100</strong>. Then, <code>docker_userid_fixer</code> will fix the userid of the <strong>target</strong> user <strong>user1</strong> from 1000 to 1001, directly in the container main process.</li>
+</ul>
+<p>So in practice this solves our issue:</p>
+<ul>
+<li>if you do not need to fix your container userid, just use docker run the usual way (without the <code>--user</code> option)</li>
+<li>or you use <code>--user</code> option, then in addition of running your main process with a userid you requested, it will modify your pre-configured user to your requested userid, so that your container is running with your intended user and intended userid.</li>
 </ul>
 </section>
-</section>
-<section id="contributions-to-existing-projects" class="level2">
-<h2 class="anchored" data-anchor-id="contributions-to-existing-projects">contributions to existing projects</h2>
-<section id="r-packages" class="level3">
-<h3 class="anchored" data-anchor-id="r-packages">R packages</h3>
+<section id="docker_userid_fixer-setup" class="level2">
+<h2 class="anchored" data-anchor-id="docker_userid_fixer-setup">docker_userid_fixer setup</h2>
+<p>You can find instructions about the setup <a href="https://github.com/kforner/docker_userid_fixer#setup">here</a>.</p>
+<p>But it boils down to:</p>
 <ul>
-<li>debugme: https://github.com/r-lib/debugme/pull/21</li>
-<li>devtools:
-<ul>
-<li>https://github.com/r-lib/devtools/pull/334</li>
-<li></li>
-</ul></li>
-<li>covr:
-<ul>
-<li>https://github.com/r-lib/covr/pull/202</li>
-<li>https://github.com/r-lib/covr/pull/193</li>
-<li>https://github.com/r-lib/covr/pull/123</li>
-<li>https://github.com/r-lib/covr/pull/32</li>
-<li>https://github.com/r-lib/covr/pull/30</li>
-</ul></li>
-<li>httptest:
-<ul>
-<li>https://github.com/nealrichardson/httptest/pull/79</li>
-<li>https://github.com/nealrichardson/httptest/pull/77</li>
-</ul></li>
-<li>httptest2 - https://github.com/nealrichardson/httptest2/pull/22</li>
-<li>knitr:
-<ul>
-<li>https://github.com/yihui/knitr/pull/1345</li>
-<li>https://github.com/yihui/knitr/pull/832</li>
-<li>https://github.com/yihui/knitr/pull/831</li>
-</ul></li>
-<li>testthat:
-<ul>
-<li>https://github.com/r-lib/testthat/pull/823</li>
-<li>https://github.com/r-lib/testthat/pull/268</li>
-<li>https://github.com/r-lib/testthat/pull/214</li>
-<li>https://github.com/r-lib/testthat/pull/120</li>
-<li>https://github.com/r-lib/testthat/pull/106</li>
-<li>https://github.com/r-lib/testthat/pull/98</li>
-<li>https://github.com/r-lib/testthat/pull/96</li>
-<li>https://github.com/r-lib/testthat/pull/85</li>
-</ul></li>
+<li>build or download the tiny executable (17k)</li>
+<li>copy it into your docker image</li>
+<li>make it executable as setuid root</li>
+<li>configure it as your entrypoint</li>
 </ul>
 </section>
-<section id="other" class="level3">
-<h3 class="anchored" data-anchor-id="other">other</h3>
-<ul>
-<li>trivy-offline - https://github.com/sighupio/trivy-offline/pull/13</li>
-<li>sast-parser - https://github.com/pcfens/sast-parser/pull/5</li>
-<li>mt-aws-glacier: https://github.com/vsespb/mt-aws-glacier/pull/24</li>
-<li>rocker:
-<ul>
-<li>https://github.com/rocker-org/website/pull/4</li>
-<li>https://github.com/rocker-org/rocker-versioned/pull/57</li>
-<li>https://github.com/rocker-org/rocker-versioned/pull/7</li>
-<li>https://github.com/rocker-org/rocker-versioned/pull/5</li>
-<li>https://github.com/rocker-org/rocker-versioned/pull/3</li>
-</ul></li>
-<li>swig: <code>Incorporated some patches to the Perl5 module related to           the -hide option and the destruction of objects.           Patch submitted by Karl Forner.</code></li>
-</ul>
-</section>
-<section id="draft" class="level3">
-<h3 class="anchored" data-anchor-id="draft">draft</h3>
-<ul>
-<li>rclone - https://github.com/rclone/rclone/pull/5556</li>
-</ul>
-</section>
-</section>
-<section id="important-bug-reports-leading-to-official-fixes" class="level2">
-<h2 class="anchored" data-anchor-id="important-bug-reports-leading-to-official-fixes">important bug reports leading to official fixes</h2>
-<ul>
-<li>R
-<ul>
-<li>R 3.0.3 - <code>namespaceImportFrom() needed to detect primitive functions when checking for duplicated imports (reported by Karl Forner).</code></li>
-<li>R 3.0.2 - <code>package.skeleton() was not starting its search for function objects in the correct place if environment was supplied. (Reported by Karl Forner.)</code></li>
-<li>R 3.0.1 - <code>The return value when all workers failed from parallel::mclapply(mc.preschedule = TRUE) was a list of strings and not of error objects. (Spotted by Karl Forner and Bernd Bischl.)</code></li>
-</ul></li>
-</ul>
+<section id="the-gory-details" class="level2">
+<h2 class="anchored" data-anchor-id="the-gory-details">the gory details</h2>
+<p>I have put some short notes <a href="https://github.com/kforner/docker_userid_fixer#how-it-works">https://github.com/kforner/docker_userid_fixer#how-it-works</a> but I’ll try to rephrase.</p>
+<p>The crux of the implementation is the <strong>setuid root</strong> of the <code>docker_userid_fixer</code> executable in the container. We need root permissions to change the userid, and this setuid enables that privileged execution only for the <code>docker_userid_fixer</code>program, and that for a very short time.</p>
+<p>As soon as the userid has been modified if needed, <code>docker_userid_fixer</code> will switch the main process to the requested user (and userid!).</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->

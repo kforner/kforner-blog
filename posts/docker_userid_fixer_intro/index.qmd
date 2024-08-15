@@ -1,0 +1,145 @@
+---
+title: "an elegant way to fix user IDs in docker containers using docker_userid_fixer"
+author: "Karl Forner"
+date: "2024-08-14"
+categories: [docker, reproducible_research, devops]
+# image: "image.jpg"
+toc: true
+---
+
+## what is it about?
+
+It's about a rather technical issue in using docker containers that interact with the docker host computer,
+generally related to using the host filesystem inside the container. 
+That happens in particular in reproducible research context. 
+I developed an opensource utility that helps tackling that issue. 
+
+## docker containers as execution  environments
+
+The initial and main use case of a docker container: a *self-contained* application that only interacts 
+with the host system with some network ports. 
+Think of a web application: the docker container typically contains a web server and a web application, 
+running for example on port 80 (inside the container). The container is then run on the host, by binding
+the container internal port 80 to a host port (e.g. 8000). 
+Then the only interaction between the containerized app and the host system is via this bound network port. 
+
+Containers as execution environments are completely different: 
+
+  - instead of containerizing an application, it's the **application build system** that is containerized.
+      * it could a be a compiler, an IDE, a notebook engine, a Quarto publishing system...
+  - the goals are:
+      * to have an **standard**, easy to install and share environment
+          * imagine a complex build environment, with fixed versions of R, python and zillions of external packages.
+          Installing everything with the right versions can be a very difficult and time-consuming task.
+          By sharing a docker image containing everything already installed and pre-configured is a real time-saver.
+      * to have a **reproducible** environment
+        * by using it, you are able to reproduce some analysis results, since you are using very same controlled environment
+        * you can also easily reproduce bugs, which is the first step to fixing them
+
+But, in order to use those execution environments, those containers must have access to the host system,
+in particular to the host user filesystem.
+
+## docker containers and the host filesystem
+
+Suppose you have containerized an IDE, e.g. Rstudio. 
+Your Rstudio is installed and running inside the docker container, but it needs to read and edit files 
+in your project folder. 
+
+For that you **bind mount** your project folder (in your host filesystem) using the docker run `--volume` option.
+Then your files are accessible from withing the docker container. 
+
+The challenge now are the file permissions. Suppose your host user has userid **1001**, and suppose 
+that the user owning the Rsudio process in the container is either **0** (root), or **1002**.
+
+If the container user is **root**, then it will have no issue in reading your files. 
+But as soon as you edit some existing files, are produce new ones (e.g. pdf, html), these files will belong to root
+**also on the host filesystem!**
+Meaning that your local host user will not be able to use them, or delete them, since they belong to root.
+
+Now if the container user id is **1002**, Rstudio may not be able to read your files, edit them or produce new files.
+Even if it can, by settings some very permissive permissions, your local host user may not be able to use them.
+
+Of course one bruteforce way of solving that issue is to run with root both on the host computer
+and withing the docker container. This is not always possible and raise some obvious critical security concerns.
+
+## solving the file owner issue part 1: the docker run `--user` option
+
+Because we can not know in advance what will be the host userid (here **1001**), we can not pre-configure
+the userid of the docker container user.
+
+**docker run** now provides a `--user` option that enables to create a **pseudo** user with some supplied userid
+at runtime. For example, `docker run --user 1001 ...` will create a docker container running with processes
+belonging to a user with userid **1001**.
+
+So what are we still discussing this issue? Isn't it solved?
+
+Here some quirks about that dynamically created user:
+
+- it is a pseudo user
+- it does not have a home directory (/home/xxx)
+- it does not appear in `/etc/passwd`
+- it can not be preconfigured, e.g. with a bash profile, some env vars, application defaults etc...
+
+We can work-around these problems, but it can be tedious and frustrating.
+What we'd really like, is to pre-configure a docker container user, and be able to dynamically 
+change his **userid** at **runtime**...
+
+## solving the file owner issue part 2: enter `docker_userid_fixer`
+
+[docker_userid_fixer](https://github.com/kforner/docker_userid_fixer) is an open source utility intended
+to be used as a **docker entrypoint** to fix the userid issue I just raised.
+
+Let's see how to use it: you set it as your docker `ENTRYPOINT`, specifying which user should be used
+and have his *userid* dynamically modified:
+```
+ENTRYPOINT ["/usr/local/bin/docker_userid_fixer","user1"]
+```
+
+Let's be precise in our terms:
+
+- the **target** user, is the user requested to docker_userid_fixer, here **user1**
+- the **requested** user, is the user provisioned by `docker run`, i.e the user that (intially) owns the first process (PID 1)
+
+
+Then, at the container runtime creation, there are two options:
+
+- either the **requested** userid (already) matches the **target** userid, then nothing has to be changed
+- or it does not. For example the  **requested** userid is **1001**, and the **target** userid is **100**.
+Then, `docker_userid_fixer` will fix the userid of the **target**  user **user1** from 1000 to 1001, directly in the container main process.
+
+So in practice this solves our issue:
+
+- if you do not need to fix your container userid, just use docker run the usual way (without the `--user` option)
+- or you use `--user` option, then in addition of running your main process with a userid you requested, 
+  it will modify your pre-configured user to your requested userid, so that your container is running with your
+  intended user and intended userid.
+
+## docker_userid_fixer setup
+
+You can find instructions about the setup [here](https://github.com/kforner/docker_userid_fixer#setup).
+
+But it boils down to:
+
+- build or download the tiny executable (17k)
+- copy it into your docker image
+- make it executable as setuid root
+- configure it as your entrypoint
+
+## the gory details
+
+I have put some short notes [https://github.com/kforner/docker_userid_fixer#how-it-works](https://github.com/kforner/docker_userid_fixer#how-it-works)
+but I'll try to rephrase.
+
+The crux of the implementation is the **setuid root** of the `docker_userid_fixer` executable in the container.
+We need root permissions to change the userid, and this setuid enables that privileged execution only for 
+the `docker_userid_fixer`program, and that for a very short time.
+
+As soon as the userid has been modified if needed, `docker_userid_fixer` will switch the main process 
+to the requested user (and userid!).
+
+
+
+
+
+
+
