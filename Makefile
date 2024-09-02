@@ -1,5 +1,8 @@
-publish:
+publish: render
 	quarto publish netlify
+
+render:
+	quarto render
 
 all: publish
 
