@@ -12,8 +12,6 @@ website:
         href: https://github.com/
       - icon: rss
         href: index.xml
-      - text: "![toto](https://scontent.xx.fbcdn.net/v/t39.30808-1/309377566_639578587529093_6323215786823147763_n.png?stp=cp0_dst-png_p50x50&_nc_cat=107&ccb=1-7&_nc_sid=5f2048&_nc_ohc=So4PkSOb-x0Q7kNvgEK0y5_&_nc_ht=scontent.xx&edm=APZrng4EAAAA&oh=00_AYCdbcFnJMxNrILyR_gN7VUXmI9I4ybUSiywL1b2EqNFcw&oe=66637234)"
-        href: https://www.r-bloggers.com
 format:
   html:
     theme: cosmo

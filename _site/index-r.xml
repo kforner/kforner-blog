@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss  xmlns:atom="http://www.w3.org/2005/Atom" 
+      xmlns:media="http://search.yahoo.com/mrss/" 
+      xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+      xmlns:dc="http://purl.org/dc/elements/1.1/" 
+      version="2.0">
+<channel>
+<title>kforner</title>
+<link>https://kforner.netlify.app/#category=R</link>
+<atom:link href="https://kforner.netlify.app/index-r.xml" rel="self" type="application/rss+xml"/>
+<description>Karl Forner&#39;s blog</description>
+<generator>quarto-1.4.554</generator>
+<lastBuildDate>Sun, 26 May 2024 22:00:00 GMT</lastBuildDate>
+<item>
+  <title>Organizing R development using srcpkgs</title>
+  <dc:creator>Karl Forner</dc:creator>
+  <link>https://kforner.netlify.app/posts/organizing_dev_with_srcpkgs/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>This is an introduction on organizing R projects using source packages (powered by my R package <a href="https://kforner.github.io/srcpkgs/">srcpkgs</a>). It is based on notes for a talk I have on 2024-05-27 for the <a href="https://www.sib.swiss/vital-it">Swiss Institute of Bioinformatics Vital-IT group</a> Analysts meeting.</p>
+<p>The obecjtive is to organize R projects in order to:</p>
+<ul>
+<li>reuse code</li>
+<li>share code</li>
+<li>increase robustness</li>
+<li>enable analysis (code) reproducibility</li>
+</ul>
+<p>The context is mostly for analysis oriented R projects.</p>
+<section id="r-packages" class="level3">
+<h3 class="anchored" data-anchor-id="r-packages">R packages</h3>
+<p>All R users use R packages, the core ones such as base, stats, tools, and some from CRAN or BioConductor.</p>
+<p>Why would you want to use R packages for your own code???</p>
+<p>a R package is:</p>
+<ul>
+<li>self-contained
+<ul>
+<li>it bundles together all related code, the documentation, the relevant data and tests</li>
+</ul></li>
+<li>the dependencies are explicitly stated, and are themselves R packages</li>
+</ul>
+</section>
+</section>
+<section id="on-the-natural-evolution-of-code-projects" class="level2">
+<h2 class="anchored" data-anchor-id="on-the-natural-evolution-of-code-projects">On the natural evolution of code projects…</h2>
+<p>My view on the general evolution of analysis projects:</p>
+<ul>
+<li><p>you start with a <strong>single script</strong>, sequential, with no functions</p></li>
+<li><p>at one point (after writing hundreds or thousands of lines) you realize that you need some <strong>functions</strong></p></li>
+<li><p>then you start reusing those functions across projects by copy/paste. This raises a number of problems</p>
+<ul>
+<li>versioning: at one point you will fix or improve such a function
+<ul>
+<li>it may be difficult to remember which project contains the latest version</li>
+<li>what of the projects that contain the incorrect versions?</li>
+</ul></li>
+</ul></li>
+<li><p>then you may want, if you work in a team, to share this code with colleagues, or to use theirs</p>
+<ul>
+<li>–&gt; it requires some <strong>documentation</strong>, even terse.</li>
+<li>there’s a increased <strong>responsibility</strong>. What if your code is wrong and impact the projects of your colleagues? One remedy is to write tests for those functions.</li>
+<li>those functions are seldom independent, so that you can not just pick one</li>
+<li>all those functions are <em>exposed</em> (i.e <em>public</em> or <em>exported</em>).
+<ul>
+<li>if you start to use a low-level function in your project, and that in the next version it has been refactored and that this function has been changed, or removed, updating the shared code will break the project.</li>
+</ul></li>
+</ul></li>
+<li><p>for all those reasons you start packaging your reusable code as a <strong>R package</strong></p>
+<ul>
+<li>you can add documentation, tests, group code logically. It brings a namespace so that you can decide what you expose.</li>
+</ul></li>
+<li><p>But… it does NOT really solve the <strong>versioning</strong> problem</p>
+<ul>
+<li>in R, packages have to be <strong>installed</strong> (e.g.&nbsp;using <code>install.packages()</code>) before you can use them with <code>library(mypkg)</code></li>
+<li>packages have a version number (N.B: this is not the same as <em>code versioning</em>)</li>
+<li>if you use version v1 in your project A, and version v2 in project B, you have to juggle with versions (install/uninstall) Of course there are some tools to deal with that (renv…) but they work with external packages (or you need some private custom repositories)</li>
+<li>and it’s very cumbersome. Suppose that in your project A you find a bug in the (installed package). In order to fix it, you need to
+<ul>
+<li>fetch the source code of the package</li>
+<li>try to reproduce your problem. Chances are that you need your project data, you have to reproduce your session</li>
+<li>finally, if you manage to fix it. You have to publish it, install it.</li>
+</ul></li>
+</ul></li>
+<li><p>my approach is to use what I call <strong>R source packages</strong></p>
+<ul>
+<li>they are normal R packages, but instead of installing them on your R system, you load them directly from source in your R session.</li>
+<li>it was made possible by the infamous <strong>Hadley Wickham</strong>, and his <code>devtools::load_all()</code> function, that mimics the loading of an installed package</li>
+<li>this greatly helps with all those problems:
+<ul>
+<li>you embed your source packages inside your project (as <em>git submodules</em>, we’ll that see later) this solves the versioning/reproducibility at your reusable code level: all your projects may use a different version</li>
+</ul></li>
+<li>if you need to fix a bug, or improve and augment your reusable code, it’s a simple as editing the code for your project. And using <code>srcpkgs</code>, you can even easily reload the code inside your existing R sessions, without losing any computed data.</li>
+</ul></li>
+<li><p>so far so good. Then for ease of maintenance/modularity, you start splitting your reusable code by category, and develop several R packages, e.g.&nbsp;one for some misc utilities, one for loading data from your database, one for some specific analysis…</p>
+<ul>
+<li>this is where <code>srcpkgs</code> become usefuls, since <code>devtools</code> was designed to manage a <strong>single R source package</strong>, not a collection/<strong>library</strong> of possibly inter-dependent packages.
+<ul>
+<li>additionally has a useful little hack that enables you to use the standard <code>library()</code> function to load your source packages. So that when you analysis is finalized, or deployed in <em>production</em>, with your packages installed in the standard way, your script will continue to worl without any change.</li>
+</ul></li>
+</ul></li>
+<li><p>But this does not solve the <strong>reproducibility</strong> for the external packages</p>
+<ul>
+<li>your code and source library most certainly use external packages, and also depend on your R version (and thus on the <em>bioconductor</em> version)</li>
+<li>it may also depend on your OS architecture (CPU…)</li>
+<li>this is out of scope for that talk, but one solution for that is to use a virtualized development environment: a <strong>docker</strong> container (cf https://rocker-project.org/) that contains a fixed version of <strong>R</strong>, and of all the needed external packages.</li>
+<li>now the challenge is to synchronize that docker container version with your source library version…</li>
+<li>also cf <a href="https://code.visualstudio.com/docs/devcontainers/containers">devcontainers</a></li>
+</ul></li>
+</ul>
+<section id="summary" class="level3">
+<h3 class="anchored" data-anchor-id="summary">Summary</h3>
+<p><code>script --&gt; script+functions --&gt; script + source files --&gt;  R package --&gt; R source package --&gt; R source library [ + R docker env]</code></p>
+</section>
+</section>
+<section id="my-recommended-project-setup" class="level2">
+<h2 class="anchored" data-anchor-id="my-recommended-project-setup">My recommended project setup</h2>
+<ul>
+<li>the source <strong>library</strong> of R packages
+<ul>
+<li>should be a <strong>single dedicated git repository</strong>
+<ul>
+<li>recommended since it’s easier to have consistent versions of interdependent packages</li>
+<li>but each package could be in its own git repository if needed</li>
+</ul></li>
+<li>each package should contain <strong>tests</strong> (very important, even if it’s counter intuitive, but there is usually more value in the test suite than in the code itself, don’t get me started on that…)</li>
+<li>for internal packages, especially for a public of developers I personally that the <strong>documentation</strong> is less important, for example that for a publicly released package.</li>
+<li>you should use <strong>CI</strong> (Continuous Integration, like github actions or gitlab CI) to automatically run the automated tests each time you push to the repository.</li>
+<li>also, reporting the test coverage is important</li>
+</ul></li>
+<li>the <strong>project code</strong>
+<ul>
+<li>MUST be versioned in a git repository (in github/gitlab…): one repository per project</li>
+<li>should itself be a R (source) package
+<ul>
+<li>easier to add tests, documentation, vignettes</li>
+</ul></li>
+<li>but can be a single script or a set of source files</li>
+<li>contain a given version (commit/tag/branch) of the source library as a <strong>git submodule</strong></li>
+<li>should contain a <strong>vscode devcontainer</strong> to execute the project’s code (automatically usable via <strong>github codespaces</strong>)</li>
+</ul></li>
+<li>the project R code will then use the <code>srcpkgs</code> package, that will automatically <strong>discover</strong> the R packages contained in the project folder, and transparently load them using the <em>hacked</em> <code>library()</code> function as if they were installed packages.</li>
+</ul>
+</section>
+<section id="resources" class="level1">
+<h1>Resources:</h1>
+<ul>
+<li>the github repository of <a href="https://github.com/kforner/srcpkgs"><code>srcpkgs</code></a></li>
+<li>the <a href="https://kforner.github.io/srcpkgs/">online documentation</a>
+<ul>
+<li>notably this demo vignette: <a href="https://kforner.github.io/srcpkgs/articles/demo.html">why would you need srcpkgs?</a></li>
+</ul></li>
+</ul>
+<p><a href="../../about">I (Karl Forner)</a> am currently working as a consultant, contact me if you want me to help you on using R, organizing development, developing R packages or more generally support your software development efforts.</p>
+
+
+</section>
+
+ ]]></description>
+  <category>R</category>
+  <category>srcpkgs</category>
+  <category>dev</category>
+  <guid>https://kforner.netlify.app/posts/organizing_dev_with_srcpkgs/</guid>
+  <pubDate>Sun, 26 May 2024 22:00:00 GMT</pubDate>
+</item>
+</channel>
+</rss>
