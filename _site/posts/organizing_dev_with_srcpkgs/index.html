@@ -166,7 +166,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
   </ul></li>
   <li><a href="#my-recommended-project-setup" id="toc-my-recommended-project-setup" class="nav-link" data-scroll-target="#my-recommended-project-setup">My recommended project setup</a></li>
-  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources">Resources:</a></li>
+  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources">Resources</a></li>
   </ul>
 </nav>
     </div>
@@ -303,16 +303,16 @@ ul.task-list li input[type="checkbox"] {
 </ul>
 </section>
 <section id="resources" class="level1">
-<h1>Resources:</h1>
+<h1>Resources</h1>
 <ul>
 <li>the github repository of <a href="https://github.com/kforner/srcpkgs"><code>srcpkgs</code></a></li>
 <li>the <a href="https://kforner.github.io/srcpkgs/">online documentation</a>
 <ul>
 <li>notably this demo vignette: <a href="https://kforner.github.io/srcpkgs/articles/demo.html">why would you need srcpkgs?</a></li>
 </ul></li>
+<li>This post should be available on <a href="https://www.r-bloggers.com">R bloggers</a></li>
 </ul>
 <p><a href="../../about">I (Karl Forner)</a> am currently working as a consultant, contact me if you want me to help you on using R, organizing development, developing R packages or more generally support your software development efforts.</p>
-<p>This post should be available on <a href="https://www.r-bloggers.com" class="uri">https://www.r-bloggers.com</a>.</p>
 
 
 </section>
@@ -399,7 +399,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/kforner\.netlify\.app\/");
+      var filterRegex = new RegExp("https:\/\/kforner\.netlify\.app");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }

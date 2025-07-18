@@ -117,13 +117,14 @@ several R packages, e.g. one for some misc utilities, one for loading data from 
 - the project R code will then use the `srcpkgs` package, that will automatically **discover** the R packages
   contained in the project folder, and transparently load them using the *hacked* `library()` function as if they were installed packages.
 
-# Resources:
+# Resources
 
 - the github repository of [`srcpkgs`](https://github.com/kforner/srcpkgs)
 - the [online documentation](https://kforner.github.io/srcpkgs/)
   * notably this demo vignette: [why would you need srcpkgs?](https://kforner.github.io/srcpkgs/articles/demo.html)
+- This post should be available on [R bloggers](https://www.r-bloggers.com)
 
 [I (Karl Forner)](../../about) am currently working as a consultant, contact me if you want me to help you on using R, 
 organizing development, developing R packages or more generally support your software development efforts.
 
-This post should be available on <https://www.r-bloggers.com>.
+
