@@ -12,6 +12,8 @@ website:
         href: https://github.com/
       - icon: rss
         href: index.xml
+      - text: R-bloggers
+        href: http://r-bloggers.com/
 format:
   html:
     theme: cosmo

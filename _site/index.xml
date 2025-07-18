@@ -133,7 +133,7 @@
 <section id="overview" class="level2">
 <h2 class="anchored" data-anchor-id="overview">Overview</h2>
 <p>This is an introduction on organizing R projects using source packages (powered by my R package <a href="https://kforner.github.io/srcpkgs/">srcpkgs</a>). It is based on notes for a talk I have on 2024-05-27 for the <a href="https://www.sib.swiss/vital-it">Swiss Institute of Bioinformatics Vital-IT group</a> Analysts meeting.</p>
-<p>The obecjtive is to organize R projects in order to:</p>
+<p>The objective is to organize R projects in order to:</p>
 <ul>
 <li>reuse code</li>
 <li>share code</li>
@@ -265,6 +265,7 @@
 </ul></li>
 </ul>
 <p><a href="../../about">I (Karl Forner)</a> am currently working as a consultant, contact me if you want me to help you on using R, organizing development, developing R packages or more generally support your software development efforts.</p>
+<p>This post should be available on <a href="https://www.r-bloggers.com" class="uri">https://www.r-bloggers.com</a>.</p>
 
 
 </section>
