@@ -10,7 +10,7 @@
   </url>
   <url>
     <loc>https://kforner.netlify.app/posts/organizing_dev_with_srcpkgs/index.html</loc>
-    <lastmod>2025-07-18T07:48:41.619Z</lastmod>
+    <lastmod>2025-07-18T11:14:07.478Z</lastmod>
   </url>
   <url>
     <loc>https://kforner.netlify.app/posts/docker_userid_fixer_intro/index.html</loc>
@@ -19,5 +19,9 @@
   <url>
     <loc>https://kforner.netlify.app/about.html</loc>
     <lastmod>2024-06-03T13:24:08.409Z</lastmod>
+  </url>
+  <url>
+    <loc>https://kforner.netlify.app/posts/fuzzycoco_release/index.html</loc>
+    <lastmod>2025-09-18T17:06:38.910Z</lastmod>
   </url>
 </urlset>

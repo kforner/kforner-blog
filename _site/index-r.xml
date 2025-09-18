@@ -10,7 +10,7 @@
 <atom:link href="https://kforner.netlify.app/index-r.xml" rel="self" type="application/rss+xml"/>
 <description>Karl Forner&#39;s blog</description>
 <generator>quarto-1.4.554</generator>
-<lastBuildDate>Sun, 26 May 2024 22:00:00 GMT</lastBuildDate>
+<lastBuildDate>Thu, 17 Jul 2025 22:00:00 GMT</lastBuildDate>
 <item>
   <title>Organizing R development using srcpkgs</title>
   <dc:creator>Karl Forner</dc:creator>
@@ -166,7 +166,7 @@
   <category>srcpkgs</category>
   <category>dev</category>
   <guid>https://kforner.netlify.app/posts/organizing_dev_with_srcpkgs/</guid>
-  <pubDate>Sun, 26 May 2024 22:00:00 GMT</pubDate>
+  <pubDate>Thu, 17 Jul 2025 22:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>

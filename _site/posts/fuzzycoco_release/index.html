@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Karl Forner">
+<meta name="dcterms.date" content="2025-09-10">
 
-<title>kforner - Karl Forner’s blog</title>
+<title>kforner - fuzzycoco: C++ open-source release of my re-implementation of the Fuzzy Coco algorithm</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,24 +25,22 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -68,68 +68,10 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
 
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
 
-    const options = {
-      valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description","listing-categories"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
-
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
-
-<link rel="stylesheet" href="styles.css">
-<link rel="alternate" type="application/rss+xml" title="kforner" href="index.xml" data-external="1"></head>
+<link rel="stylesheet" href="../../styles.css">
+</head>
 
 <body class="nav-fixed">
 
@@ -138,7 +80,7 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">kforner</span>
     </a>
   </div>
@@ -149,7 +91,7 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
+    <a class="nav-link" href="../../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item compact">
@@ -158,7 +100,7 @@ window.Quarto = {
 <span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="./index.xml"> <i class="bi bi-rss" role="img">
+    <a class="nav-link" href="../../index.xml"> <i class="bi bi-rss" role="img">
 </i> 
 <span class="menu-text"></span></a>
   </li>  
@@ -176,158 +118,78 @@ window.Quarto = {
 <!-- content -->
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-page-left">
-      <h1 class="title">Karl Forner’s blog</h1>
-                      </div>
+    <div class="quarto-title column-body">
+      <h1 class="title">fuzzycoco: C++ open-source release of my re-implementation of the Fuzzy Coco algorithm</h1>
+                                <div class="quarto-categories">
+                <div class="quarto-category">fuzzycoco</div>
+                <div class="quarto-category">c++</div>
+              </div>
+                  </div>
   </div>
     
   
-  <div class="quarto-title-meta column-page-left">
+  <div class="quarto-title-meta">
 
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Karl Forner </p>
+            </div>
+    </div>
       
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">September 10, 2025</p>
+      </div>
+    </div>
     
       
     </div>
     
   
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(3)</span></div><div class="category" data-category="R">R <span class="quarto-category-count">(1)</span></div><div class="category" data-category="c++">c++ <span class="quarto-category-count">(1)</span></div><div class="category" data-category="dev">dev <span class="quarto-category-count">(1)</span></div><div class="category" data-category="devops">devops <span class="quarto-category-count">(1)</span></div><div class="category" data-category="docker">docker <span class="quarto-category-count">(1)</span></div><div class="category" data-category="fuzzycoco">fuzzycoco <span class="quarto-category-count">(1)</span></div><div class="category" data-category="reproducible_research">reproducible_research <span class="quarto-category-count">(1)</span></div><div class="category" data-category="srcpkgs">srcpkgs <span class="quarto-category-count">(1)</span></div></div></div>
+    </div>
 <!-- main -->
-<main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
 
 
+<p>I am pleased to announce the open-source (GPL-3) release of my re-implementation of the <strong>Fuzzy Coco</strong> algorithm: <a href="https://github.com/Lonza-RND-Data-Science/fuzzycoco">https://github.com/Lonza-RND-Data-Science/fuzzycoco</a>.</p>
+<p>In short, <strong>Fuzzy CoCo</strong> combines <em>fuzzy logic</em> with <em>cooperative genetic algorithms</em> to evolve clear, human-understandable models for explainable machine learning, cf <em>Fuzzy CoCo: a cooperative-coevolutionary approach to fuzzy modeling</em> from <a href="https://orcid.org/0000-0002-2113-6498">Carlos Andrés Peña-Reyes</a>.</p>
+<p>This is my re-implementation of the FUGE_LC C++ software, developed by Jean-Philippe Meylan, Yvan Da Silva and Rochus Keller (cf <a href="https://github.com/Lonza-RND-Data-Science/fuzzycoco/blob/main/README.md#acknowledgements">full acknowledgements</a>).</p>
+<p>The motivations for that re-implementation were mainly to be able to easily use and distribute this software using high-level dynamic languages such as <strong>R</strong> and <strong>Python</strong>.</p>
+<p>Some of the reasons <strong>FUGE_LC</strong>, the original implementation, was not suitable for that:</p>
+<ul>
+<li>it uses (and old version of) the <strong>Qt</strong> C++ framework, which, even though Qt is now open-source, makes it quite difficult to bundle with a R or Python package. And it was quite difficult to setup and build.</li>
+<li>it can only be used via a <strong>javascript script</strong> interpreted internally, that makes it really difficult to use properly from another language, especially to control the iterations of the algorithm.</li>
+<li>we wanted to add new features.</li>
+</ul>
+<p>The characteristics of this re-implementation are:</p>
+<ul>
+<li>everything had to be rewritten, since the existing code made heavy use of Qt data structure and base classes, and was not designed for unit-testing. But all the algorithms and calculations are the same.</li>
+<li>it uses <strong>standard C++17 and its standard library</strong> with not a single external dependency, making it easy to bundle with for instance a R package.</li>
+<li>it includes 2 related new features, prototyped by Magali Egger: <strong>features importance</strong> and <strong>genetic population biased initialization</strong>, based on those features importance. That should also be a future post.</li>
+<li>it is available as a C++ shared and static <strong>library</strong>, but still provides a C++ executable, as FUGE_LC.</li>
+<li>it is extremely well tested: <strong>100% test code coverage</strong> (<a href="https://codecov.io/github/Lonza-RND-Data-Science/fuzzycoco"><img src="https://codecov.io/github/Lonza-RND-Data-Science/fuzzycoco/graph/badge.svg?token=UMCPQXVXQA" class="img-fluid" alt="codecov"></a>). It is commonly assumed that a test coverage over 90% or 95% is overkill. For sure the last percents are by far the hardest to fix, but I am such a TDD (Test Driven Development) fanatic that I did. I always learn some new insights in programming and code design in that exercise. I’ll probably write a post about unit testing and the related tools if there is some interest.</li>
+<li>the test-driven design makes it really <strong>modular</strong>, so that new features can be added more easily.</li>
+<li>since the goal is to publish a R package, the code has to be <strong>portable</strong>, at least on the 3 main operating systems that the CRAN supports: Linux, MacOs and Windows. With C++ it’s really difficult, since each OS and compiler has its peculiarities. Using the github CI (Continuous Integration), named <strong>github actions</strong>, the code is automatically tested on all 3 platforms.</li>
+<li>the software is of course <strong>reproducible</strong>, meaning that with the same input (including the random seed), we get the same output. Actually I spotted that it was not true for <strong>FUGE_LC</strong>, and Magali Egger fixed that.</li>
+<li>it is also <strong>cross-platform reproducible</strong>. I mean the same input (including the random seed) will get the very same output on all 3 supported plaforms, and I actually had a hard-time achieving that. I’ll also probably write a post about that.</li>
+<li>the current code has not been optimized for speed (yet), but for correctness and compatibility. But some obvious inefficiencies have been fixed. There is for sure plenty of room for optimization.</li>
+</ul>
+<p>I am currently working on the R package called <strong>Rfuzzycoco</strong>. It is already working but I am preparing for the <strong>CRAN</strong> submission.</p>
+<p>Let me know if you are interested by this project.</p>
 
 
 
-
-<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="fuzzycoco,c++" data-listing-date-sort="1757455200000" data-listing-file-modified-sort="1758215198910" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="636">
-<div class="thumbnail">
-<p><a href="./posts/fuzzycoco_release/index.html" class="no-external"></a></p><a href="./posts/fuzzycoco_release/index.html" class="no-external">
-<p><img src="./posts/fuzzycoco_release/fuzzycoco_illustration.png" class="thumbnail-image"></p>
-</a><p><a href="./posts/fuzzycoco_release/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/fuzzycoco_release/index.html" class="no-external">fuzzycoco: C++ open-source release of my re-implementation of the Fuzzy Coco algorithm</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/fuzzycoco_release/index.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('fuzzycoco'); return false;">
-fuzzycoco
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('c++'); return false;">
-c++
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/fuzzycoco_release/index.html" class="no-external">I am pleased to announce the open-source (GPL-3) release of my re-implementation of the <strong>Fuzzy Coco</strong> algorithm: https://github.com/Lonza-RND-Data-Science/fuzzycoco.</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/fuzzycoco_release/index.html" class="no-external">
-<div class="listing-date">
-Sep 10, 2025
-</div>
-<div class="listing-author">
-Karl Forner
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-categories="R,srcpkgs,dev" data-listing-date-sort="1752789600000" data-listing-file-modified-sort="1752837247478" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1327">
-<div class="thumbnail">
-<p><a href="./posts/organizing_dev_with_srcpkgs/index.html" class="no-external"></a></p><a href="./posts/organizing_dev_with_srcpkgs/index.html" class="no-external">
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-</a><p><a href="./posts/organizing_dev_with_srcpkgs/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/organizing_dev_with_srcpkgs/index.html" class="no-external">Organizing R development using srcpkgs</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/organizing_dev_with_srcpkgs/index.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
-R
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('srcpkgs'); return false;">
-srcpkgs
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('dev'); return false;">
-dev
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/organizing_dev_with_srcpkgs/index.html" class="no-external">This is an introduction on organizing R projects using source packages (powered by my R package srcpkgs). It is based on notes for a talk I have on 2024-05-27 for the Swiss…</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/organizing_dev_with_srcpkgs/index.html" class="no-external">
-<div class="listing-date">
-Jul 18, 2025
-</div>
-<div class="listing-author">
-Karl Forner
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="2" data-categories="docker,reproducible_research,devops" data-listing-date-sort="1723586400000" data-listing-file-modified-sort="1723712822166" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1082">
-<div class="thumbnail">
-<p><a href="./posts/docker_userid_fixer_intro/index.html" class="no-external"></a></p><a href="./posts/docker_userid_fixer_intro/index.html" class="no-external">
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-</a><p><a href="./posts/docker_userid_fixer_intro/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/docker_userid_fixer_intro/index.html" class="no-external">an elegant way to fix user IDs in docker containers using docker_userid_fixer</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/docker_userid_fixer_intro/index.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('docker'); return false;">
-docker
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('reproducible_research'); return false;">
-reproducible_research
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('devops'); return false;">
-devops
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/docker_userid_fixer_intro/index.html" class="no-external">It’s about a rather technical issue in using docker containers that interact with the docker host computer, generally related to using the host filesystem inside the…</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/docker_userid_fixer_intro/index.html" class="no-external">
-<div class="listing-date">
-Aug 14, 2024
-</div>
-<div class="listing-author">
-Karl Forner
-</div>
-</a>
-</div>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

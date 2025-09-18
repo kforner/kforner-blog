@@ -2,8 +2,9 @@
   {
     "listing": "/index.html",
     "items": [
-      "/posts/docker_userid_fixer_intro/index.html",
-      "/posts/organizing_dev_with_srcpkgs/index.html"
+      "/posts/fuzzycoco_release/index.html",
+      "/posts/organizing_dev_with_srcpkgs/index.html",
+      "/posts/docker_userid_fixer_intro/index.html"
     ]
   }
 ]

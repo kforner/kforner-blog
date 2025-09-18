@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "Karl Forner’s blog",
     "section": "",
-    "text": "an elegant way to fix user IDs in docker containers using docker_userid_fixer\n\n\n\n\n\n\ndocker\n\n\nreproducible_research\n\n\ndevops\n\n\n\n\n\n\n\n\n\nAug 14, 2024\n\n\nKarl Forner\n\n\n\n\n\n\n\n\n\n\n\n\nOrganizing R development using srcpkgs\n\n\n\n\n\n\nR\n\n\nsrcpkgs\n\n\ndev\n\n\n\n\n\n\n\n\n\nMay 27, 2024\n\n\nKarl Forner\n\n\n\n\n\n\nNo matching items"
+    "text": "fuzzycoco: C++ open-source release of my re-implementation of the Fuzzy Coco algorithm\n\n\n\n\n\n\nfuzzycoco\n\n\nc++\n\n\n\n\n\n\n\n\n\nSep 10, 2025\n\n\nKarl Forner\n\n\n\n\n\n\n\n\n\n\n\n\nOrganizing R development using srcpkgs\n\n\n\n\n\n\nR\n\n\nsrcpkgs\n\n\ndev\n\n\n\n\n\n\n\n\n\nJul 18, 2025\n\n\nKarl Forner\n\n\n\n\n\n\n\n\n\n\n\n\nan elegant way to fix user IDs in docker containers using docker_userid_fixer\n\n\n\n\n\n\ndocker\n\n\nreproducible_research\n\n\ndevops\n\n\n\n\n\n\n\n\n\nAug 14, 2024\n\n\nKarl Forner\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "contributions.html",
@@ -124,5 +124,89 @@
     "title": "About",
     "section": "",
     "text": "I am a computer scientist (and mathematician) by training, and have always worked in bioinformatics and pharmaceutical field. I am really experienced in R programming (but I also coded in Perl, Python, C++, java) and more generally in setting up and leading software development platforms, in particular for reproducible research. In particular I pioneered the use of docker containers as reproducible computing development environments.\nI am also fond of software optimization and parallelization.\nLately, I’m working as a consultant, so don’t hesitate to contact me if you like my work.\nAnd I am a fervent proponent of OpenSource software: my OpenSource contributions"
+  },
+  {
+    "objectID": "posts/fuzzycoco_release/index.html",
+    "href": "posts/fuzzycoco_release/index.html",
+    "title": "fuzzycoco: C++ open-source release of my re-implementation of the Fuzzy Coco algorithm",
+    "section": "",
+    "text": "I am pleased to announce the open-source (GPL-3) release of my re-implementation of the Fuzzy Coco algorithm: https://github.com/Lonza-RND-Data-Science/fuzzycoco.\nIn short, Fuzzy CoCo combines fuzzy logic with cooperative genetic algorithms to evolve clear, human-understandable models for explainable machine learning, cf Fuzzy CoCo: a cooperative-coevolutionary approach to fuzzy modeling from Carlos Andrés Peña-Reyes.\nThis is my re-implementation of the FUGE_LC C++ software, developed by Jean-Philippe Meylan, Yvan Da Silva and Rochus Keller (cf full acknowledgements).\nThe motivations for that re-implementation were mainly to be able to easily use and distribute this software using high-level dynamic languages such as R and Python.\nSome of the reasons FUGE_LC, the original implementation, was not suitable for that:\n\nit uses (and old version of) the Qt C++ framework, which, even though Qt is now open-source, makes it quite difficult to bundle with a R or Python package. And it was quite difficult to setup and build.\nit can only be used via a javascript script interpreted internally, that makes it really difficult to use properly from another language, especially to control the iterations of the algorithm.\nwe wanted to add new features.\n\nThe characteristics of this re-implementation are:\n\neverything had to be rewritten, since the existing code made heavy use of Qt data structure and base classes, and was not designed for unit-testing. But all the algorithms and calculations are the same.\nit uses standard C++17 and its standard library with not a single external dependency, making it easy to bundle with for instance a R package.\nit includes 2 related new features, prototyped by Magali Egger: features importance and genetic population biased initialization, based on those features importance. That should also be a future post.\nit is available as a C++ shared and static library, but still provides a C++ executable, as FUGE_LC.\nit is extremely well tested: 100% test code coverage (). It is commonly assumed that a test coverage over 90% or 95% is overkill. For sure the last percents are by far the hardest to fix, but I am such a TDD (Test Driven Development) fanatic that I did. I always learn some new insights in programming and code design in that exercise. I’ll probably write a post about unit testing and the related tools if there is some interest.\nthe test-driven design makes it really modular, so that new features can be added more easily.\nsince the goal is to publish a R package, the code has to be portable, at least on the 3 main operating systems that the CRAN supports: Linux, MacOs and Windows. With C++ it’s really difficult, since each OS and compiler has its peculiarities. Using the github CI (Continuous Integration), named github actions, the code is automatically tested on all 3 platforms.\nthe software is of course reproducible, meaning that with the same input (including the random seed), we get the same output. Actually I spotted that it was not true for FUGE_LC, and Magali Egger fixed that.\nit is also cross-platform reproducible. I mean the same input (including the random seed) will get the very same output on all 3 supported plaforms, and I actually had a hard-time achieving that. I’ll also probably write a post about that.\nthe current code has not been optimized for speed (yet), but for correctness and compatibility. But some obvious inefficiencies have been fixed. There is for sure plenty of room for optimization.\n\nI am currently working on the R package called Rfuzzycoco. It is already working but I am preparing for the CRAN submission.\nLet me know if you are interested by this project."
+  },
+  {
+    "objectID": "posts/fuzzycoco_release/index.html#what-is-it-about",
+    "href": "posts/fuzzycoco_release/index.html#what-is-it-about",
+    "title": "fuzzycoco: C++ open-source release of my re-implementation of the Fuzzy Coco algorithm",
+    "section": "",
+    "text": "It’s about a rather technical issue in using docker containers that interact with the docker host computer, generally related to using the host filesystem inside the container. That happens in particular in reproducible research context. I developed an opensource utility that helps tackling that issue."
+  },
+  {
+    "objectID": "posts/fuzzycoco_release/index.html#docker-containers-as-execution-environments",
+    "href": "posts/fuzzycoco_release/index.html#docker-containers-as-execution-environments",
+    "title": "fuzzycoco: C++ open-source release of my re-implementation of the Fuzzy Coco algorithm",
+    "section": "docker containers as execution environments",
+    "text": "docker containers as execution environments\nThe initial and main use case of a docker container: a self-contained application that only interacts with the host system with some network ports. Think of a web application: the docker container typically contains a web server and a web application, running for example on port 80 (inside the container). The container is then run on the host, by binding the container internal port 80 to a host port (e.g. 8000). Then the only interaction between the containerized app and the host system is via this bound network port.\nContainers as execution environments are completely different:\n\ninstead of containerizing an application, it’s the application build system that is containerized.\n\nit could a be a compiler, an IDE, a notebook engine, a Quarto publishing system…\n\nthe goals are:\n\nto have an standard, easy to install and share environment\n\nimagine a complex build environment, with fixed versions of R, python and zillions of external packages. Installing everything with the right versions can be a very difficult and time-consuming task. By sharing a docker image containing everything already installed and pre-configured is a real time-saver.\n\nto have a reproducible environment\n\nby using it, you are able to reproduce some analysis results, since you are using very same controlled environment\nyou can also easily reproduce bugs, which is the first step to fixing them\n\n\n\nBut, in order to use those execution environments, those containers must have access to the host system, in particular to the host user filesystem."
+  },
+  {
+    "objectID": "posts/fuzzycoco_release/index.html#docker-containers-and-the-host-filesystem",
+    "href": "posts/fuzzycoco_release/index.html#docker-containers-and-the-host-filesystem",
+    "title": "fuzzycoco: C++ open-source release of my re-implementation of the Fuzzy Coco algorithm",
+    "section": "docker containers and the host filesystem",
+    "text": "docker containers and the host filesystem\nSuppose you have containerized an IDE, e.g. Rstudio. Your Rstudio is installed and running inside the docker container, but it needs to read and edit files in your project folder.\nFor that you bind mount your project folder (in your host filesystem) using the docker run --volume option. Then your files are accessible from withing the docker container.\nThe challenge now are the file permissions. Suppose your host user has userid 1001, and suppose that the user owning the Rsudio process in the container is either 0 (root), or 1002.\nIf the container user is root, then it will have no issue in reading your files. But as soon as you edit some existing files, are produce new ones (e.g. pdf, html), these files will belong to root also on the host filesystem! Meaning that your local host user will not be able to use them, or delete them, since they belong to root.\nNow if the container user id is 1002, Rstudio may not be able to read your files, edit them or produce new files. Even if it can, by settings some very permissive permissions, your local host user may not be able to use them.\nOf course one bruteforce way of solving that issue is to run with root both on the host computer and withing the docker container. This is not always possible and raise some obvious critical security concerns."
+  },
+  {
+    "objectID": "posts/fuzzycoco_release/index.html#solving-the-file-owner-issue-part-1-the-docker-run---user-option",
+    "href": "posts/fuzzycoco_release/index.html#solving-the-file-owner-issue-part-1-the-docker-run---user-option",
+    "title": "fuzzycoco: C++ open-source release of my re-implementation of the Fuzzy Coco algorithm",
+    "section": "solving the file owner issue part 1: the docker run --user option",
+    "text": "solving the file owner issue part 1: the docker run --user option\nBecause we can not know in advance what will be the host userid (here 1001), we can not pre-configure the userid of the docker container user.\ndocker run now provides a --user option that enables to create a pseudo user with some supplied userid at runtime. For example, docker run --user 1001 ... will create a docker container running with processes belonging to a user with userid 1001.\nSo what are we still discussing this issue? Isn’t it solved?\nHere some quirks about that dynamically created user:\n\nit is a pseudo user\nit does not have a home directory (/home/xxx)\nit does not appear in /etc/passwd\nit can not be preconfigured, e.g. with a bash profile, some env vars, application defaults etc…\n\nWe can work-around these problems, but it can be tedious and frustrating. What we’d really like, is to pre-configure a docker container user, and be able to dynamically change his userid at runtime…"
+  },
+  {
+    "objectID": "posts/fuzzycoco_release/index.html#solving-the-file-owner-issue-part-2-enter-docker_userid_fixer",
+    "href": "posts/fuzzycoco_release/index.html#solving-the-file-owner-issue-part-2-enter-docker_userid_fixer",
+    "title": "fuzzycoco: C++ open-source release of my re-implementation of the Fuzzy Coco algorithm",
+    "section": "solving the file owner issue part 2: enter docker_userid_fixer",
+    "text": "solving the file owner issue part 2: enter docker_userid_fixer\ndocker_userid_fixer is an open source utility intended to be used as a docker entrypoint to fix the userid issue I just raised.\nLet’s see how to use it: you set it as your docker ENTRYPOINT, specifying which user should be used and have his userid dynamically modified:\nENTRYPOINT [\"/usr/local/bin/docker_userid_fixer\",\"user1\"]\nLet’s be precise in our terms:\n\nthe target user, is the user requested to docker_userid_fixer, here user1\nthe requested user, is the user provisioned by docker run, i.e the user that (intially) owns the first process (PID 1)\n\nThen, at the container runtime creation, there are two options:\n\neither the requested userid (already) matches the target userid, then nothing has to be changed\nor it does not. For example the requested userid is 1001, and the target userid is 100. Then, docker_userid_fixer will fix the userid of the target user user1 from 1000 to 1001, directly in the container main process.\n\nSo in practice this solves our issue:\n\nif you do not need to fix your container userid, just use docker run the usual way (without the --user option)\nor you use --user option, then in addition of running your main process with a userid you requested, it will modify your pre-configured user to your requested userid, so that your container is running with your intended user and intended userid."
+  },
+  {
+    "objectID": "posts/fuzzycoco_release/index.html#docker_userid_fixer-setup",
+    "href": "posts/fuzzycoco_release/index.html#docker_userid_fixer-setup",
+    "title": "fuzzycoco: C++ open-source release of my re-implementation of the Fuzzy Coco algorithm",
+    "section": "docker_userid_fixer setup",
+    "text": "docker_userid_fixer setup\nYou can find instructions about the setup here.\nBut it boils down to:\n\nbuild or download the tiny executable (17k)\ncopy it into your docker image\nmake it executable as setuid root\nconfigure it as your entrypoint"
+  },
+  {
+    "objectID": "posts/fuzzycoco_release/index.html#the-gory-details",
+    "href": "posts/fuzzycoco_release/index.html#the-gory-details",
+    "title": "fuzzycoco: C++ open-source release of my re-implementation of the Fuzzy Coco algorithm",
+    "section": "the gory details",
+    "text": "the gory details\nI have put some short notes https://github.com/kforner/docker_userid_fixer#how-it-works but I’ll try to rephrase.\nThe crux of the implementation is the setuid root of the docker_userid_fixer executable in the container. We need root permissions to change the userid, and this setuid enables that privileged execution only for the docker_userid_fixerprogram, and that for a very short time.\nAs soon as the userid has been modified if needed, docker_userid_fixer will switch the main process to the requested user (and userid!)."
+  },
+  {
+    "objectID": "posts/fuzzycoco_release/index.html#release",
+    "href": "posts/fuzzycoco_release/index.html#release",
+    "title": "fuzzycoco: C++ open-source release of my re-implementation of the Fuzzy Coco algorithm",
+    "section": "",
+    "text": "I am pleased to announce the open-source release as open-source of my re-implementation of the Fuzzy Coco algorithm: https://github.com/Lonza-RND-Data-Science/fuzzycoco."
+  },
+  {
+    "objectID": "posts/fuzzycoco_release/index.html#fuzzycoco-cooperative-genetic-algorithms-with-fuzzy-logic-for-explainable-ml",
+    "href": "posts/fuzzycoco_release/index.html#fuzzycoco-cooperative-genetic-algorithms-with-fuzzy-logic-for-explainable-ml",
+    "title": "fuzzycoco: C++ open-source release of my re-implementation of the Fuzzy Coco algorithm",
+    "section": "FuzzyCoCo: cooperative genetic algorithms with fuzzy logic for explainable ML",
+    "text": "FuzzyCoCo: cooperative genetic algorithms with fuzzy logic for explainable ML"
+  },
+  {
+    "objectID": "posts/fuzzycoco_release/index.html#implementation",
+    "href": "posts/fuzzycoco_release/index.html#implementation",
+    "title": "fuzzycoco: C++ open-source release of my re-implementation of the Fuzzy Coco algorithm",
+    "section": "implementation",
+    "text": "implementation\nThis is my re-implementation of the FUGE_LC C++ software, developed by Jean-Philippe Meylan, Yvan Da Silva and Rochus Keller (cf full acknowledgements).\nThe motivations for that re-implementation were mainly to be able to easily use and distribute this software using high-level dynamic languages such as R and Python."
+  },
+  {
+    "objectID": "posts/fuzzycoco_release/index.html#re-implementation",
+    "href": "posts/fuzzycoco_release/index.html#re-implementation",
+    "title": "fuzzycoco: C++ open-source release of my re-implementation of the Fuzzy Coco algorithm",
+    "section": "re-implementation",
+    "text": "re-implementation\nThis is my re-implementation of the FUGE_LC C++ software, developed by Jean-Philippe Meylan, Yvan Da Silva and Rochus Keller (cf full acknowledgements).\nThe motivations for that re-implementation were mainly to be able to easily use and distribute this software using high-level dynamic languages such as R and Python.\nSome of the reasons FUGE_LC was not suitable for that:\n\nit uses (and old version of) the Qt C++ framework, which, even though Qt is now open-source, makes it quite difficult to bundle with a R or Python package. And it was quite difficult to setup and build.\nit can only be used via a javascript script interpreted internally, that makes it really difficult to use properly from another language, especially to control the iterations of the algorithm.\nwe wanted to add new features.\n\nThe characteristics of this re-implementation are:\n\neverything had to be rewritten, since the existing code made heavy use of Qt data structure and base classes, and was not designed for unit-testing. But all the algorithms, calculations are the same.\nit uses standard C++17 and its standard library with not a single external dependency, making it easy to bundle with for instance a R package.\nit is available as a C++ shared and static library, but still provides a C++ executable, as FUGE_LC.\nit is extremely well tested: 100% test code coverage (). It is commonly assumed that a test coverage over 90% or 95% is overkill. For sure the last percents are by far the hardest to fix, but I am such a TDD (Test Driven Development) fanatic that I did. I always learn some new insights in programming and code design. I’ll probably write a post about unit testing and the related tools if there is some interest.\nthe test-driven design makes it really modular, so that new features can be added more easily.\nsince the goal is to publish a R package, the code has to be portable, at least on the 3 main operating systems that the CRAN supports: Linux, MacOs and Windows. With C++ it’s really difficult, since each OS and compiler has its peculiarities. Using the github CI (Continuous Integration), named github actions, the code is automatically tested on all 3 platforms.\nthe software is of course reproducible, meaning that with the same input (including the random seed), we get the same output. Actually I spotted that was not true for FUGE_LC, and Magali Egger fixed that.\nit is also cross-platform reproducible. I mean the same input (including the random seed) will get the same output on all 3 supported plaforms, and I actually had a hard-time achieving that. I’ll also probably write a post about that.\nthe current code has not been optimized for speed (yet), but for correctness and compatibility. But some obvious inefficiencies have been fixed. There is for sure plenty of room for optimization."
   }
 ]

@@ -1,0 +1,60 @@
+---
+title: "fuzzycoco: C++ open-source release of my re-implementation of the Fuzzy Coco algorithm "
+author: "Karl Forner"
+date: "2025-09-10"
+categories: [fuzzycoco, c++]
+image: "fuzzycoco_illustration.png"
+toc: true
+---
+
+
+I am pleased to announce the open-source (GPL-3) release of my re-implementation of the **Fuzzy Coco** algorithm: 
+[https://github.com/Lonza-RND-Data-Science/fuzzycoco](https://github.com/Lonza-RND-Data-Science/fuzzycoco).
+
+In short, **Fuzzy CoCo** combines *fuzzy logic* with *cooperative genetic algorithms* to evolve clear, human-understandable models for explainable machine learning, cf *Fuzzy CoCo: a cooperative-coevolutionary approach to fuzzy modeling* from [Carlos Andrés Peña-Reyes](https://orcid.org/0000-0002-2113-6498). 
+
+
+This is my re-implementation of the FUGE_LC C++ software, developed by Jean-Philippe Meylan, Yvan Da Silva and Rochus Keller
+ (cf [full acknowledgements](https://github.com/Lonza-RND-Data-Science/fuzzycoco/blob/main/README.md#acknowledgements)).
+
+The motivations for that re-implementation were mainly to be able to easily use and distribute this software using high-level
+dynamic languages such as **R** and **Python**.
+
+Some of the reasons **FUGE_LC**, the original implementation,  was not suitable for that:
+
+  - it uses (and old version of) the **Qt** C++ framework, which, even though Qt is now open-source, makes it quite difficult
+  to bundle with a R or Python package. And it was quite difficult to setup and build.
+  - it can only be used via a **javascript script** interpreted internally, that makes it really difficult to use properly
+  from another language, especially to control the iterations of the algorithm.
+  - we wanted to add new features.
+
+The characteristics of this re-implementation are:
+
+  - everything had to be rewritten, since the existing code made heavy use of Qt data structure and base classes, and 
+  was not designed for unit-testing. But all the algorithms and calculations are the same.
+  - it uses **standard C++17 and its standard library** with not a single external dependency, making it easy to bundle with 
+  for instance a R package.
+  - it includes 2 related new features, prototyped by Magali Egger: **features importance** and 
+   **genetic population biased initialization**, based on those features importance. That should also be a future post. 
+  - it is available as a C++ shared and static **library**, but still provides a C++ executable, as FUGE_LC.
+  - it is extremely well tested: **100% test code coverage** ([![codecov](https://codecov.io/github/Lonza-RND-Data-Science/fuzzycoco/graph/badge.svg?token=UMCPQXVXQA)](https://codecov.io/github/Lonza-RND-Data-Science/fuzzycoco)). It is commonly assumed that a test coverage over 90% or 95% is overkill. For sure the last percents are by far the hardest to fix, but I am such a TDD (Test Driven Development)
+  fanatic that I did. I always learn some new insights in programming and code design in that exercise. I'll probably write a post about 
+  unit testing and the related tools if there is some interest.
+  - the test-driven design makes it really **modular**, so that new features can be added more easily.
+  - since the goal is to publish a R package, the code has to be **portable**, at least on the 3 main operating systems that the 
+  CRAN supports: Linux, MacOs and Windows. With C++ it's really difficult, since each OS and compiler has its peculiarities.
+  Using the github CI (Continuous Integration), named **github actions**, the code is automatically tested on all 3 platforms.
+  - the software is of course **reproducible**, meaning that with the same input (including the random seed), we get the same output.
+  Actually I spotted that it was not true for **FUGE_LC**, and Magali Egger fixed that. 
+  - it is also **cross-platform reproducible**. I mean the same input (including the random seed) will get the very same output
+  on all 3 supported plaforms, and I actually had a hard-time achieving that. I'll also probably write a post about that.
+  - the current code has not been optimized for speed (yet), but for correctness and compatibility. But some obvious inefficiencies have been fixed. There is for sure plenty  of room for optimization. 
+
+I am currently working on the R package called **Rfuzzycoco**. It is already working but I am preparing for the **CRAN**
+submission.
+
+Let me know if you are interested by this project.
+
+
+
+
