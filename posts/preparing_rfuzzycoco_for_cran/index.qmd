@@ -1,0 +1,76 @@
+---
+title: "Preparing Rfuzzycoco for publication on CRAN"
+author: "Karl Forner"
+date: "2025-10-01"
+categories: [R, fuzzycoco, c++]
+image: "coverage.svg"
+toc: true
+---
+
+I recently released a R package [Rfuzzycoco](https://github.com/Lonza-RND-Data-Science/Rfuzzycoco) that provides
+the **Fuzzy Coco** algorithm by wrapping my [fuzzycoco](https://github.com/Lonza-RND-Data-Science/fuzzycoco) C++
+implementation and extending it. It provides easy installation and access to this software.
+
+The Comprehensive R Archive Network (**CRAN**) is R's main package repository. 
+The quality of CRAN packages is enforced by a very drastic process of submission, that covers the code itself, 
+the dependencies, the size of the package, the portability of file encoding and filenames, the documentation, 
+the description of the package, the code examples etc...
+
+Having a package accepted can be a daunting and very time-consuming task, so that some developers just give up 
+and release their package by other means, for example on **github**.
+
+It is even much worse for packages with C++ code, because the package has to implement the build process in a portable way, 
+and the package should work on the 3 major platforms: Linux, MacOs and Windows, that use different compilers and 
+implementations of the C++ standard library. 
+
+On the other hand, having his package on CRAN is a guarantee of quality and portability. There are also some useful 
+services for the users, as the distribution of binary packages, or Debian/ubuntu APT packages. 
+For developers, when you submit a new version there are automated checks against all reverse dependencies, i.e. all
+packages using your package, for regression testing.
+
+I will briefly explain how I am preparing for submitting [Rfuzzycoco](https://github.com/Lonza-RND-Data-Science/Rfuzzycoco)
+to the CRAN, the ecosystem and tools that I use. Some are very common and straightforward.
+
+  - I use the wonderful [devtools](https://devtools.r-lib.org/) package to develop and test the package code.
+  - documentation:
+      * reference manual: I use [roxygen2](https://roxygen2.r-lib.org/) to generate the function-level documentation from inline
+    annotations in the source code. It is integrated in [devtools](https://devtools.r-lib.org/).
+      * vignettes: I use [rmarkdown](https://rmarkdown.rstudio.com/).
+      * website: I use [pkgdown](https://pkgdown.r-lib.org/) to generate the HTML documentation from the roxygen doc and Rmarkdown vignettes
+      and publish it on [github pages](https://docs.github.com/en/pages) via the CI
+  - unit tests: 
+    * this is in my opinion the most fundamental aspect of development, assessing the quality of code and enabling the refactoring.
+    * very surprisingly, tests are not mandatory for CRAN, but they are for me.
+    * I use for that the [testthat](https://testthat.r-lib.org/) package, also integrated in [devtools](https://devtools.r-lib.org/)
+    * measuring the test coverage is also of paramount importance. I use [covr](https://covr.r-lib.org/) for that, it is 
+      able to also cover the C/C++ code included in the R package.
+    * I use the [codecov service](https://app.codecov.io/gh/Lonza-RND-Data-Science/Rfuzzycoco) to publish the test coverage results.
+    * I just achieved **100% test coverage**, for both the R and C++ Rfuzzycoco code (excluding the fuzzycoco lib code which
+    by the way has also 100% test coverage)
+  - R CMD check: 
+    * this is a fundamental tool that implements lots of checks on your package, and also run the tests in a realistic way. You should use it from the beginning. I integrate it in my Makefile (`make check`) and automate it in the CI. 
+  - git: of course your code must be versioned, and should use branches for developing new features.
+  - github (or equivalent devops platform). I will only discuss github here since it is what I'm using for Rfuzzycoco
+    - it solves the distribution, the collaboration via forks and pull requests
+    - it provides issues for reporting bugs, and interacting with other developers and users
+    - it also provides documentation, via the README.md and github pages
+    - Continuous Integration (CI) via [github actions](https://github.com/features/actions)
+      - this also a fundamental feature. It can automate the checks, the documentation publishing and much more.
+      - It can check your package on multiple platforms
+      - I currently have a CI for checking (R CMD check) on ubuntu, macos and windows, and on several versions of R (release and devel). 
+      This is an absolute killer feature, especially for CRAN since it can test the portability of your package.
+      - I also have a CI that measures the test coverage, and automatically publish it on [codecov](https://app.codecov.io/gh/Lonza-RND-Data-Science/Rfuzzycoco)
+      - and a CI to publish the HTML documentation on [github pages](https://docs.github.com/en/pages)
+
+The sooner this ecosystem is setup, the better. It for sure involves some work, but you can reuse all this infrastructure
+for other packages. And I think one thing that is lacking is a standard R package project that would implement all this kind of 
+tooling in a standardized, optimized and well maintained way. That would lower the barrier to entry to R package development
+and would dramatically increase the overall quality.
+
+Stay tuned for more news on the Rfuzzycoco CRNA journey.
+
+
+*[I (Karl Forner)](../../about) am currently working as a consultant, contact me if you want me to help you on using R, 
+organizing development, developing R packages or more generally supporting your software development efforts.*
+
+
