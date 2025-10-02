@@ -21,7 +21,7 @@
 
 
 
-<p>I recently released a R package <a href="https://github.com/Lonza-RND-Data-Science/Rfuzzycoco">Rfuzzycoco</a> that provides the <strong>Fuzzy Coco</strong> algorithm by wrapping my <a href="https://github.com/Lonza-RND-Data-Science/fuzzycoco">fuzzycoco</a> C++ implementation and extending it. It provides easy installation and access to this software.</p>
+<p>I recently released on github a R package <a href="https://github.com/Lonza-RND-Data-Science/Rfuzzycoco">Rfuzzycoco</a> that provides the <strong>Fuzzy Coco</strong> algorithm by wrapping my <a href="https://github.com/Lonza-RND-Data-Science/fuzzycoco">fuzzycoco</a> C++ implementation and extending it. It provides easy installation and access to this software.</p>
 <p>The Comprehensive R Archive Network (<strong>CRAN</strong>) is R’s main package repository. The quality of CRAN packages is enforced by a very drastic process of submission, that covers the code itself, the dependencies, the size of the package, the portability of file encoding and filenames, the documentation, the description of the package, the code examples etc…</p>
 <p>Having a package accepted can be a daunting and very time-consuming task, so that some developers just give up and release their package by other means, for example on <strong>github</strong>.</p>
 <p>It is even much worse for packages with C++ code, because the package has to implement the build process in a portable way, and the package should work on the 3 major platforms: Linux, MacOs and Windows, that use different compilers and implementations of the C++ standard library.</p>
@@ -35,37 +35,38 @@
 <li>vignettes: I use <a href="https://rmarkdown.rstudio.com/">rmarkdown</a>.</li>
 <li>website: I use <a href="https://pkgdown.r-lib.org/">pkgdown</a> to generate the HTML documentation from the roxygen doc and Rmarkdown vignettes and publish it on <a href="https://docs.github.com/en/pages">github pages</a> via the CI</li>
 </ul></li>
-<li>unit tests:
+<li>unit testing:
 <ul>
-<li>this is in my opinion the most fundamental aspect of development, assessing the quality of code and enabling the refactoring.</li>
+<li>this is in my opinion <strong>the most fundamental aspect of development</strong>, assessing the quality of code and enabling the refactoring.</li>
 <li>very surprisingly, tests are not mandatory for CRAN, but they are for me.</li>
-<li>I use for that the <a href="https://testthat.r-lib.org/">testthat</a> package, also integrated in <a href="https://devtools.r-lib.org/">devtools</a></li>
-<li>measuring the test coverage is also of paramount importance. I use <a href="https://covr.r-lib.org/">covr</a> for that, it is able to also cover the C/C++ code included in the R package.</li>
+<li>I use the <a href="https://testthat.r-lib.org/">testthat</a> package, also integrated in <a href="https://devtools.r-lib.org/">devtools</a></li>
+<li>measuring the <strong>test coverage</strong> is also of paramount importance. I use <a href="https://covr.r-lib.org/">covr</a> for that, it is able to also cover the C/C++ code included in the R package.</li>
 <li>I use the <a href="https://app.codecov.io/gh/Lonza-RND-Data-Science/Rfuzzycoco">codecov service</a> to publish the test coverage results.</li>
-<li>I just achieved <strong>100% test coverage</strong>, for both the R and C++ Rfuzzycoco code (excluding the fuzzycoco lib code which by the way has also 100% test coverage)</li>
+<li><img src="https://kforner.netlify.app/posts/preparing_rfuzzycoco_for_cran/coverage.svg" class="img-fluid" alt="coverage badge">: I just achieved <strong>100% test coverage</strong> , for both the R and C++ Rfuzzycoco code (excluding the fuzzycoco lib code which by the way has also 100% test coverage). I explained in a precedent post that in general it’s not worth trying to reach 100%, but it is for me.</li>
 </ul></li>
 <li>R CMD check:
 <ul>
 <li>this is a fundamental tool that implements lots of checks on your package, and also run the tests in a realistic way. You should use it from the beginning. I integrate it in my Makefile (<code>make check</code>) and automate it in the CI.</li>
 </ul></li>
 <li>git: of course your code must be versioned, and should use branches for developing new features.</li>
-<li>github (or equivalent devops platform). I will only discuss github here since it is what I’m using for Rfuzzycoco
+<li>github (or equivalent devops platform). I will only discuss github here since that’s what I’m using for Rfuzzycoco
 <ul>
 <li>it solves the distribution, the collaboration via forks and pull requests</li>
 <li>it provides issues for reporting bugs, and interacting with other developers and users</li>
 <li>it also provides documentation, via the README.md and github pages</li>
-<li>Continuous Integration (CI) via <a href="https://github.com/features/actions">github actions</a>
+<li><strong>Continuous Integration</strong> (CI) via <a href="https://github.com/features/actions">github actions</a>
 <ul>
 <li>this also a fundamental feature. It can automate the checks, the documentation publishing and much more.</li>
-<li>It can check your package on multiple platforms</li>
-<li>I currently have a CI for checking (R CMD check) on ubuntu, macos and windows, and on several versions of R (release and devel). This is an absolute killer feature, especially for CRAN since it can test the portability of your package.</li>
+<li>It can check your package on <strong>multiple platforms</strong></li>
+<li>I currently have a CI for checking (R CMD check) on ubuntu, macos and windows, and on several versions of R (release and devel). This is an absolute <strong>killer feature</strong>, especially for CRAN since it can test the portability of your package.</li>
 <li>I also have a CI that measures the test coverage, and automatically publish it on <a href="https://app.codecov.io/gh/Lonza-RND-Data-Science/Rfuzzycoco">codecov</a></li>
 <li>and a CI to publish the HTML documentation on <a href="https://docs.github.com/en/pages">github pages</a></li>
 </ul></li>
 </ul></li>
 </ul>
-<p>The sooner this ecosystem is setup, the better. It for sure involves some work, but you can reuse all this infrastructure for other packages. And I think one thing that is lacking is a standard R package project that would implement all this kind of tooling in a standardized, optimized and well maintained way. That would lower the barrier to entry to R package development and would dramatically increase the overall quality.</p>
-<p>Stay tuned for more news on the Rfuzzycoco CRNA journey.</p>
+<p>The sooner this ecosystem is setup, the better. It for sure involves some work, but you can reuse all this infrastructure for other packages.</p>
+<p>And I think one thing that is lacking is a standard R package project that would implement all this kind of tooling in a standardized, optimized and well maintained way. That would lower the barrier to entry to R package development and would dramatically increase the overall quality.</p>
+<p>Stay tuned for more on the Rfuzzycoco CRAN journey.</p>
 <p><em><a href="../../about">I (Karl Forner)</a> am currently working as a consultant, contact me if you want me to help you on using R, organizing development, developing R packages or more generally supporting your software development efforts.</em></p>
 
 
