@@ -10,7 +10,175 @@
 <atom:link href="https://kforner.netlify.app/index.xml" rel="self" type="application/rss+xml"/>
 <description>Karl Forner&#39;s blog</description>
 <generator>quarto-1.4.554</generator>
-<lastBuildDate>Tue, 30 Sep 2025 22:00:00 GMT</lastBuildDate>
+<lastBuildDate>Wed, 15 Oct 2025 22:00:00 GMT</lastBuildDate>
+<item>
+  <title>clitable: a new R package to easily print pretty tables in the terminal</title>
+  <dc:creator>Karl Forner</dc:creator>
+  <link>https://kforner.netlify.app/posts/clitable_release/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<p>I am pleased to announce that <a href="https://github.com/kforner/clitable">clitable</a>, my new R package for printing tables in the terminal, just made its way to the <a href="https://cran.r-project.org/web/packages/clitable/index.html">CRAN</a>!! It lets you print pretty colorful tables directly in the R console or terminal.</p>
+<p>I am also quite proud that it was accepted on its first submission, without anything to fix, which is in my experience not that common, and is also the subject of my previous post <a href="../preparing_rfuzzycoco_for_cran/index.html">Preparing Rfuzzycoco for publication on CRAN</a>. The average time for a CRAN submission review is a week, so imagine the delay if you have to resubmit 4 or 5 times. This was made possible by a combination of tools and good practices (and experience): devtools, testthat, roxygen2, covr, git, github actions (CI), rhub, pkgdown, codecov…</p>
+<p>And once again, my package has <strong>100% test coverage</strong> <img src="https://kforner.netlify.app/posts/clitable_release/coverage.svg" class="img-fluid" alt="coverage badge"> (and yes it’s overkill but I am a Test addict…).</p>
+<p>So what is it for ? For pretty printing tables (data frames, matrices) in the terminal, like this: <img src="https://kforner.netlify.app/posts/clitable_release/clitable.png" class="img-fluid" alt="a clitable example"></p>
+<p>In this example, you can see:</p>
+<ul>
+<li>column headers, rendered in <strong>bold</strong></li>
+<li>columns with adequate size</li>
+<li>2 highlighted rows (in green)</li>
+<li>NA values rendered with a custom style, <strong>strikethrough</strong></li>
+<li>the <strong>flipper_len</strong> column with a <strong>heatmap</strong> background</li>
+<li>the first value, in cell (1, 1) using a custom <a href="https://r-lib.github.io/crayon/">crayon</a> style</li>
+</ul>
+<p>The corresponding code is:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1">  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># the table to print</span></span>
+<span id="cb1-2">  df <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">head</span>(datasets<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span>penguins, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">20</span>)</span>
+<span id="cb1-3"></span>
+<span id="cb1-4">  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># custom crayon style </span></span>
+<span id="cb1-5">  df<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>species <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">as.character</span>(df<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>species)</span>
+<span id="cb1-6">  df[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>] <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> crayon<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">style</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"ADELIE"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"underline"</span>,<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"bgYellow"</span>)</span>
+<span id="cb1-7"></span>
+<span id="cb1-8">  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># create clitable</span></span>
+<span id="cb1-9">  ct <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">cli_table</span>(df, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">header_style =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"bold"</span>,</span>
+<span id="cb1-10">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">NA_style =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"strikethrough"</span>,</span>
+<span id="cb1-11">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">heatmap_columns =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">list</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"flipper_len"</span>), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">xmin =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">180</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">xmax =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">200</span>,</span>
+<span id="cb1-12">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">hilite_rows =</span> <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">!</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">is.na</span>(df<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>sex) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&amp;</span> df<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>sex <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"female"</span> <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&amp;</span> df<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>bill_dep <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;=</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">19</span>, </span>
+<span id="cb1-13">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">hilite_style =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"bgGreen"</span></span>
+<span id="cb1-14">  )</span>
+<span id="cb1-15"></span>
+<span id="cb1-16">  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># print it</span></span>
+<span id="cb1-17">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">cat</span>(ct, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">sep =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">\n</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>)</span>
+<span id="cb1-18"><span class="er" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">}</span></span></code></pre></div>
+</div>
+<p>Note that this is my most complex example.</p>
+<p>You may ask, <strong>why would I want to print a table in the terminal??</strong> In R we have multiple ways to render pretty tables in html, pdf, images.</p>
+<p>My personal use case if for the next version of a package of mine, <a href="https://kforner.github.io/srcpkgs/">srcpkgs</a>, which can render the results of testing or checking a collection of R source packages as multiple tables in the terminal. I need to <strong>highlight</strong> the rows that correspond to errors and to print the <strong>elapsed time</strong> column as a heatmap to quickly identify bottlenecks. I also wanted to make it compatible with the amazing <a href="https://r-lib.github.io/crayon/">crayon</a> and <a href="https://r-lib.github.io/cli/">cli</a> packages, so that it is easy to customize the output.</p>
+<p>Another use case I foresee is for logging some results. The <a href="https://r-lib.github.io/cli/">cli</a> package is really useful for that, but seems to be missing an easy way to print tables, hence clitable!</p>
+<p>You may also ask, <strong>aren’t there other R packages that can render pretty tables as text??</strong> There are indeed. For example I have used a lot the <a href="https://hughjonesd.github.io/huxtable/">huxtable</a> package, that is really powerful, and can render tables in LaTeX, HTML, text. But using it for my purpose is not that straightforward, to the extent of my knowledge it is not compatible with <a href="https://r-lib.github.io/cli/">cli</a>, and it has a lot of dependencies. In comparison, <a href="https://github.com/kforner/clitable">clitable</a> is a dwarf, but has minimal dependencies (<code>crayon</code>/<code>cli</code>), is easy to use and easy to extend, and intended to work well with cli. Note that this is the very first version, and the interface can evolve if needed.</p>
+<p>Feedback and contributions are welcome on GitHub.</p>
+<p>Here are some more examples, part of <code>clitable::demo()</code></p>
+<p><img src="https://kforner.netlify.app/posts/clitable_release/styles1.png" class="img-fluid" alt="some styles"> <img src="https://kforner.netlify.app/posts/clitable_release/styles2.png" class="img-fluid" alt="more styles"> <img src="https://kforner.netlify.app/posts/clitable_release/heatmaps.png" class="img-fluid" alt="heatmaps"> <img src="https://kforner.netlify.app/posts/clitable_release/hilite.png" class="img-fluid" alt="hilite"></p>
+
+
+
+ ]]></description>
+  <category>R</category>
+  <category>dev</category>
+  <guid>https://kforner.netlify.app/posts/clitable_release/</guid>
+  <pubDate>Wed, 15 Oct 2025 22:00:00 GMT</pubDate>
+  <media:content url="https://kforner.netlify.app/posts/clitable_release/clitable.png" medium="image" type="image/png" height="101" width="144"/>
+</item>
 <item>
   <title>Preparing Rfuzzycoco for publication on CRAN</title>
   <dc:creator>Karl Forner</dc:creator>

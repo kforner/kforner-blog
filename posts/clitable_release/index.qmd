@@ -1,0 +1,87 @@
+---
+title: "clitable: a new R package to easily print pretty tables in the terminal"
+author: "Karl Forner"
+date: "2025-10-16"
+categories: [R, dev]
+image: "clitable.png"
+toc: true
+---
+
+
+I am pleased to announce that [clitable](https://github.com/kforner/clitable), my new R package for printing tables in the terminal, just made its way to the [CRAN](https://cran.r-project.org/web/packages/clitable/index.html)!!
+It lets you print pretty colorful tables directly in the R console or terminal.
+
+I am also quite proud that it was accepted on its first submission, without anything to fix, which is in my experience
+not that common, and is also the subject of my previous post [Preparing Rfuzzycoco for publication on CRAN](../preparing_rfuzzycoco_for_cran/index.html). The average time for a CRAN submission review is a week, so imagine the delay
+if you have to resubmit 4 or 5 times. This was made possible by a combination of tools and good practices (and experience): devtools, testthat, roxygen2, covr, git, github actions (CI), rhub, pkgdown, codecov...
+
+
+And once again, my package has **100% test coverage** ![coverage badge](coverage.svg) (and yes it's overkill but I am a 
+Test addict...).
+
+So what is it for ? For pretty printing tables (data frames, matrices) in the terminal, like this:
+![a clitable example](clitable.png) 
+
+In this example, you can see:
+
+  - column headers, rendered in **bold**
+  - columns with adequate size
+  - 2 highlighted rows (in green)
+  - NA values rendered with a custom style, **strikethrough**
+  - the **flipper_len** column with a **heatmap** background
+  - the first value, in cell (1, 1) using a custom [crayon](https://r-lib.github.io/crayon/) style
+
+The corresponding code is:
+```{r}
+#| eval: false
+  # the table to print
+  df <- head(datasets::penguins, 20)
+
+  # custom crayon style 
+  df$species <- as.character(df$species)
+  df[1, 1] <- crayon::style("ADELIE", "underline","bgYellow")
+
+  # create clitable
+  ct <- cli_table(df, header_style = "bold",
+    NA_style = "strikethrough",
+    heatmap_columns = list("flipper_len"), xmin = 180, xmax = 200,
+    hilite_rows = !is.na(df$sex) & df$sex == "female" & df$bill_dep >= 19, 
+    hilite_style = "bgGreen"
+  )
+
+  # print it
+  cat(ct, sep = "\n")
+}
+```
+Note that this is my most complex example.
+
+
+You may ask, **why would I want to print a table in the terminal??** In R we have multiple ways to render pretty tables in 
+html, pdf, images.
+
+My personal use case if for the next version of a package of mine, [srcpkgs](https://kforner.github.io/srcpkgs/), which
+can render the results of testing or checking a collection of R source packages as multiple tables in the terminal.
+I need to **highlight** the rows that correspond to errors and to print the **elapsed time** column as a heatmap to quickly
+identify bottlenecks. I also wanted to make it compatible with the amazing [crayon](https://r-lib.github.io/crayon/) and 
+[cli](https://r-lib.github.io/cli/) packages, so that it is easy to customize the output.
+
+Another use case I foresee is for logging some results. The [cli](https://r-lib.github.io/cli/) package is really useful
+for that, but seems to be missing an easy way to print tables, hence clitable!
+
+You may also ask, **aren't there other R packages that can render pretty tables as text??**
+There are indeed. For example I have used a lot the [huxtable](https://hughjonesd.github.io/huxtable/) package, that is
+really powerful, and can render tables in LaTeX, HTML, text. But using it for my purpose is not that straightforward,
+to the extent of my knowledge it is not compatible with [cli](https://r-lib.github.io/cli/), and it has a lot of dependencies.
+In comparison, [clitable](https://github.com/kforner/clitable) is a dwarf, but has minimal dependencies (`crayon`/`cli`),
+is easy to use and easy to extend, and intended to work well with cli.
+Note that this is the very first version, and the interface can evolve if needed.
+
+Feedback and contributions are welcome on GitHub.
+
+
+Here are some more examples, part of `clitable::demo()`
+
+![some styles](styles1.png)
+![more styles](styles2.png)
+![heatmaps](heatmaps.png)
+![hilite](hilite.png)

@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Karl Forner">
-<meta name="dcterms.date" content="2025-10-01">
+<meta name="dcterms.date" content="2025-10-16">
 
-<title>kforner - Preparing Rfuzzycoco for publication on CRAN</title>
+<title>kforner - clitable: a new R package to easily print pretty tables in the terminal</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,6 +21,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -119,11 +153,10 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Preparing Rfuzzycoco for publication on CRAN</h1>
+      <h1 class="title">clitable: a new R package to easily print pretty tables in the terminal</h1>
                                 <div class="quarto-categories">
                 <div class="quarto-category">R</div>
-                <div class="quarto-category">fuzzycoco</div>
-                <div class="quarto-category">c++</div>
+                <div class="quarto-category">dev</div>
               </div>
                   </div>
   </div>
@@ -141,7 +174,7 @@ ul.task-list li input[type="checkbox"] {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">October 1, 2025</p>
+        <p class="date">October 16, 2025</p>
       </div>
     </div>
     
@@ -162,53 +195,48 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<p>I recently released on github a R package <a href="https://github.com/Lonza-RND-Data-Science/Rfuzzycoco">Rfuzzycoco</a> that provides the <strong>Fuzzy Coco</strong> algorithm by wrapping my <a href="https://github.com/Lonza-RND-Data-Science/fuzzycoco">fuzzycoco</a> C++ implementation and extending it. It provides easy installation and access to this software.</p>
-<p>The Comprehensive R Archive Network (<strong>CRAN</strong>) is R’s main package repository. The quality of CRAN packages is enforced by a very drastic process of submission, that covers the code itself, the dependencies, the size of the package, the portability of file encoding and filenames, the documentation, the description of the package, the code examples etc…</p>
-<p>Having a package accepted can be a daunting and very time-consuming task, so that some developers just give up and release their package by other means, for example on <strong>github</strong>.</p>
-<p>It is even much worse for packages with C++ code, because the package has to implement the build process in a portable way, and the package should work on the 3 major platforms: Linux, MacOs and Windows, that use different compilers and implementations of the C++ standard library.</p>
-<p>On the other hand, having his package on CRAN is a guarantee of quality and portability. There are also some useful services for the users, as the distribution of binary packages, or Debian/ubuntu APT packages. For developers, when you submit a new version there are automated checks against all reverse dependencies, i.e.&nbsp;all packages using your package, for regression testing.</p>
-<p>I will briefly explain how I am preparing for submitting <a href="https://github.com/Lonza-RND-Data-Science/Rfuzzycoco">Rfuzzycoco</a> to the CRAN, the ecosystem and tools that I use. Some are very common and straightforward.</p>
+<p>I am pleased to announce that <a href="https://github.com/kforner/clitable">clitable</a>, my new R package for printing tables in the terminal, just made its way to the <a href="https://cran.r-project.org/web/packages/clitable/index.html">CRAN</a>!! It lets you print pretty colorful tables directly in the R console or terminal.</p>
+<p>I am also quite proud that it was accepted on its first submission, without anything to fix, which is in my experience not that common, and is also the subject of my previous post <a href="../preparing_rfuzzycoco_for_cran/index.html">Preparing Rfuzzycoco for publication on CRAN</a>. The average time for a CRAN submission review is a week, so imagine the delay if you have to resubmit 4 or 5 times. This was made possible by a combination of tools and good practices (and experience): devtools, testthat, roxygen2, covr, git, github actions (CI), rhub, pkgdown, codecov…</p>
+<p>And once again, my package has <strong>100% test coverage</strong> <img src="coverage.svg" class="img-fluid" alt="coverage badge"> (and yes it’s overkill but I am a Test addict…).</p>
+<p>So what is it for ? For pretty printing tables (data frames, matrices) in the terminal, like this: <img src="clitable.png" class="img-fluid" alt="a clitable example"></p>
+<p>In this example, you can see:</p>
 <ul>
-<li>I use the wonderful <a href="https://devtools.r-lib.org/">devtools</a> package to develop and test the package code.</li>
-<li>documentation:
-<ul>
-<li>reference manual: I use <a href="https://roxygen2.r-lib.org/">roxygen2</a> to generate the function-level documentation from inline annotations in the source code. It is integrated in <a href="https://devtools.r-lib.org/">devtools</a>.</li>
-<li>vignettes: I use <a href="https://rmarkdown.rstudio.com/">rmarkdown</a>.</li>
-<li>website: I use <a href="https://pkgdown.r-lib.org/">pkgdown</a> to generate the HTML documentation from the roxygen doc and Rmarkdown vignettes and publish it on <a href="https://docs.github.com/en/pages">github pages</a> via the CI</li>
-</ul></li>
-<li>unit testing:
-<ul>
-<li>this is in my opinion <strong>the most fundamental aspect of development</strong>, assessing the quality of code and enabling the refactoring.</li>
-<li>very surprisingly, tests are not mandatory for CRAN, but they are for me.</li>
-<li>I use the <a href="https://testthat.r-lib.org/">testthat</a> package, also integrated in <a href="https://devtools.r-lib.org/">devtools</a></li>
-<li>measuring the <strong>test coverage</strong> is also of paramount importance. I use <a href="https://covr.r-lib.org/">covr</a> for that, it is able to also cover the C/C++ code included in the R package.</li>
-<li>I use the <a href="https://app.codecov.io/gh/Lonza-RND-Data-Science/Rfuzzycoco">codecov service</a> to publish the test coverage results.</li>
-<li><img src="coverage.svg" class="img-fluid" alt="coverage badge">: I just achieved <strong>100% test coverage</strong> , for both the R and C++ Rfuzzycoco code (excluding the fuzzycoco lib code which by the way has also 100% test coverage). I explained in a precedent post that in general it’s not worth trying to reach 100%, but it is for me.</li>
-</ul></li>
-<li>R CMD check:
-<ul>
-<li>this is a fundamental tool that implements lots of checks on your package, and also run the tests in a realistic way. You should use it from the beginning. I integrate it in my Makefile (<code>make check</code>) and automate it in the CI.</li>
-</ul></li>
-<li>git: of course your code must be versioned, and should use branches for developing new features.</li>
-<li>github (or equivalent devops platform). I will only discuss github here since that’s what I’m using for Rfuzzycoco
-<ul>
-<li>it solves the distribution, the collaboration via forks and pull requests</li>
-<li>it provides issues for reporting bugs, and interacting with other developers and users</li>
-<li>it also provides documentation, via the README.md and github pages</li>
-<li><strong>Continuous Integration</strong> (CI) via <a href="https://github.com/features/actions">github actions</a>
-<ul>
-<li>this also a fundamental feature. It can automate the checks, the documentation publishing and much more.</li>
-<li>It can check your package on <strong>multiple platforms</strong></li>
-<li>I currently have a CI for checking (R CMD check) on ubuntu, macos and windows, and on several versions of R (release and devel). This is an absolute <strong>killer feature</strong>, especially for CRAN since it can test the portability of your package.</li>
-<li>I also have a CI that measures the test coverage, and automatically publish it on <a href="https://app.codecov.io/gh/Lonza-RND-Data-Science/Rfuzzycoco">codecov</a></li>
-<li>and a CI to publish the HTML documentation on <a href="https://docs.github.com/en/pages">github pages</a></li>
-</ul></li>
-</ul></li>
+<li>column headers, rendered in <strong>bold</strong></li>
+<li>columns with adequate size</li>
+<li>2 highlighted rows (in green)</li>
+<li>NA values rendered with a custom style, <strong>strikethrough</strong></li>
+<li>the <strong>flipper_len</strong> column with a <strong>heatmap</strong> background</li>
+<li>the first value, in cell (1, 1) using a custom <a href="https://r-lib.github.io/crayon/">crayon</a> style</li>
 </ul>
-<p>The sooner this ecosystem is setup, the better. It for sure involves some work, but you can reuse all this infrastructure for other packages.</p>
-<p>And I think one thing that is lacking is a standard R package project that would implement all this kind of tooling in a standardized, optimized and well maintained way. That would lower the barrier to entry to R package development and would dramatically increase the overall quality.</p>
-<p>Stay tuned for more on the Rfuzzycoco CRAN journey.</p>
-<p><em><a href="../../about">I (Karl Forner)</a> am currently working as a consultant, contact me if you want me to help you on using R, organizing development, developing R packages or more generally supporting your software development efforts.</em></p>
+<p>The corresponding code is:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>  <span class="co"># the table to print</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">head</span>(datasets<span class="sc">::</span>penguins, <span class="dv">20</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># custom crayon style </span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  df<span class="sc">$</span>species <span class="ot">&lt;-</span> <span class="fu">as.character</span>(df<span class="sc">$</span>species)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  df[<span class="dv">1</span>, <span class="dv">1</span>] <span class="ot">&lt;-</span> crayon<span class="sc">::</span><span class="fu">style</span>(<span class="st">"ADELIE"</span>, <span class="st">"underline"</span>,<span class="st">"bgYellow"</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># create clitable</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  ct <span class="ot">&lt;-</span> <span class="fu">cli_table</span>(df, <span class="at">header_style =</span> <span class="st">"bold"</span>,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">NA_style =</span> <span class="st">"strikethrough"</span>,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">heatmap_columns =</span> <span class="fu">list</span>(<span class="st">"flipper_len"</span>), <span class="at">xmin =</span> <span class="dv">180</span>, <span class="at">xmax =</span> <span class="dv">200</span>,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">hilite_rows =</span> <span class="sc">!</span><span class="fu">is.na</span>(df<span class="sc">$</span>sex) <span class="sc">&amp;</span> df<span class="sc">$</span>sex <span class="sc">==</span> <span class="st">"female"</span> <span class="sc">&amp;</span> df<span class="sc">$</span>bill_dep <span class="sc">&gt;=</span> <span class="dv">19</span>, </span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">hilite_style =</span> <span class="st">"bgGreen"</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># print it</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(ct, <span class="at">sep =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="er">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Note that this is my most complex example.</p>
+<p>You may ask, <strong>why would I want to print a table in the terminal??</strong> In R we have multiple ways to render pretty tables in html, pdf, images.</p>
+<p>My personal use case if for the next version of a package of mine, <a href="https://kforner.github.io/srcpkgs/">srcpkgs</a>, which can render the results of testing or checking a collection of R source packages as multiple tables in the terminal. I need to <strong>highlight</strong> the rows that correspond to errors and to print the <strong>elapsed time</strong> column as a heatmap to quickly identify bottlenecks. I also wanted to make it compatible with the amazing <a href="https://r-lib.github.io/crayon/">crayon</a> and <a href="https://r-lib.github.io/cli/">cli</a> packages, so that it is easy to customize the output.</p>
+<p>Another use case I foresee is for logging some results. The <a href="https://r-lib.github.io/cli/">cli</a> package is really useful for that, but seems to be missing an easy way to print tables, hence clitable!</p>
+<p>You may also ask, <strong>aren’t there other R packages that can render pretty tables as text??</strong> There are indeed. For example I have used a lot the <a href="https://hughjonesd.github.io/huxtable/">huxtable</a> package, that is really powerful, and can render tables in LaTeX, HTML, text. But using it for my purpose is not that straightforward, to the extent of my knowledge it is not compatible with <a href="https://r-lib.github.io/cli/">cli</a>, and it has a lot of dependencies. In comparison, <a href="https://github.com/kforner/clitable">clitable</a> is a dwarf, but has minimal dependencies (<code>crayon</code>/<code>cli</code>), is easy to use and easy to extend, and intended to work well with cli. Note that this is the very first version, and the interface can evolve if needed.</p>
+<p>Feedback and contributions are welcome on GitHub.</p>
+<p>Here are some more examples, part of <code>clitable::demo()</code></p>
+<p><img src="styles1.png" class="img-fluid" alt="some styles"> <img src="styles2.png" class="img-fluid" alt="more styles"> <img src="heatmaps.png" class="img-fluid" alt="heatmaps"> <img src="hilite.png" class="img-fluid" alt="hilite"></p>
 
 
 
