@@ -1,0 +1,29 @@
+---
+title: "Rfuzzycoco released on CRAN"
+author: "Karl Forner"
+date: "2025-10-21"
+categories: [R, fuzzycoco, c++]
+image: "fuzzycoco_logo.jpg"
+toc: true
+---
+
+My **Rfuzzycoco** package just hit the CRAN: https://cran.r-project.org/web/packages/Rfuzzycoco/index.html !!
+Publishing to CRAN is a rigorous process, and it was particularly challenging as this package includes custom C++ code. 
+I documented the preparation process, including the steps needed for C++ integration, in a previous post: [Preparing Rfuzzycoco for publication on CRAN](../preparing_rfuzzycoco_for_cran/)
+
+**The Fuzzy CoCo Algorithm**
+
+The core algorithm, *Fuzzy CoCo: a cooperative-coevolutionary approach to fuzzy modeling* 
+ingeniously combines **fuzzy logic** with cooperative **genetic algorithms** to evolve clear, human-understandable models, making it a powerful tool for explainable machine learning (XAI).
+
+**The C++ Foundation**
+To make **Rfuzzycoco** possible, I first had to reimplement from scratch the main legacy **Fuzzy CoCo** implementation, 
+which I released as the **fuzzycoco** C++ library, available here: [https://github.com/Lonza-RND-Data-Science/fuzzycoco](https://github.com/Lonza-RND-Data-Science/fuzzycoco). You can read more details about this in my post: 
+[fuzzycoco: C++ open-source release of my re-implementation of the Fuzzy Coco algorithm](../fuzzycoco_release/).
+
+**Get started**
+If you are interested in predicting or classifying your data with simple, human understandable, stable rules, give **Rfuzzycoco** a try, or reach out to me. I'm also open to collaborations, as there are many exciting opportunities to enhance both the implementation and the algorithm itself.
+
+*[I (Karl Forner)](../../about) am currently working as a consultant, contact me if you want me to help you with using R, 
+organizing development, developing R packages or more generally supporting your software development efforts.*
+

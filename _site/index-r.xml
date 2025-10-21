@@ -10,7 +10,34 @@
 <atom:link href="https://kforner.netlify.app/index-r.xml" rel="self" type="application/rss+xml"/>
 <description>Karl Forner&#39;s blog</description>
 <generator>quarto-1.4.554</generator>
-<lastBuildDate>Wed, 15 Oct 2025 22:00:00 GMT</lastBuildDate>
+<lastBuildDate>Mon, 20 Oct 2025 22:00:00 GMT</lastBuildDate>
+<item>
+  <title>Rfuzzycoco released on CRAN</title>
+  <dc:creator>Karl Forner</dc:creator>
+  <link>https://kforner.netlify.app/posts/rfuzzycoco_on_cran/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<p>My <strong>Rfuzzycoco</strong> package just hit the CRAN: https://cran.r-project.org/web/packages/Rfuzzycoco/index.html !! Publishing to CRAN is a rigorous process, and it was particularly challenging as this package includes custom C++ code. I documented the preparation process, including the steps needed for C++ integration, in a previous post: <a href="../preparing_rfuzzycoco_for_cran/">Preparing Rfuzzycoco for publication on CRAN</a></p>
+<p><strong>The Fuzzy CoCo Algorithm</strong></p>
+<p>The core algorithm, <em>Fuzzy CoCo: a cooperative-coevolutionary approach to fuzzy modeling</em> ingeniously combines <strong>fuzzy logic</strong> with cooperative <strong>genetic algorithms</strong> to evolve clear, human-understandable models, making it a powerful tool for explainable machine learning (XAI).</p>
+<p><strong>The C++ Foundation</strong> To make <strong>Rfuzzycoco</strong> possible, I first had to reimplement from scratch the main legacy <strong>Fuzzy CoCo</strong> implementation, which I released as the <strong>fuzzycoco</strong> C++ library, available here: <a href="https://github.com/Lonza-RND-Data-Science/fuzzycoco">https://github.com/Lonza-RND-Data-Science/fuzzycoco</a>. You can read more details about this in my post: <a href="../fuzzycoco_release/">fuzzycoco: C++ open-source release of my re-implementation of the Fuzzy Coco algorithm</a>.</p>
+<p><strong>Get started</strong> If you are interested in predicting or classifying your data with simple, human understandable, stable rules, give <strong>Rfuzzycoco</strong> a try, or reach out to me. I’m also open to collaborations, as there are many exciting opportunities to enhance both the implementation and the algorithm itself.</p>
+<p><em><a href="../../about">I (Karl Forner)</a> am currently working as a consultant, contact me if you want me to help you with using R, organizing development, developing R packages or more generally supporting your software development efforts.</em></p>
+
+
+
+ ]]></description>
+  <category>R</category>
+  <category>fuzzycoco</category>
+  <category>c++</category>
+  <guid>https://kforner.netlify.app/posts/rfuzzycoco_on_cran/</guid>
+  <pubDate>Mon, 20 Oct 2025 22:00:00 GMT</pubDate>
+  <media:content url="https://kforner.netlify.app/posts/rfuzzycoco_on_cran/fuzzycoco_logo.jpg" medium="image" type="image/jpeg"/>
+</item>
 <item>
   <title>clitable: a new R package to easily print pretty tables in the terminal</title>
   <dc:creator>Karl Forner</dc:creator>

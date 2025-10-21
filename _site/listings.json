@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/rfuzzycoco_on_cran/index.html",
       "/posts/clitable_release/index.html",
       "/posts/preparing_rfuzzycoco_for_cran/index.html",
       "/posts/fuzzycoco_release/index.html",
